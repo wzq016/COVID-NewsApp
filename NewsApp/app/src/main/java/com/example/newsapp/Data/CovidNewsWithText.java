@@ -10,7 +10,9 @@ import okhttp3.Response;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
+/*
+查询后返回的新冠疫情新闻类，含正文等
+ */
 public class CovidNewsWithText extends LitePalSupport
 {
     private String id = "";

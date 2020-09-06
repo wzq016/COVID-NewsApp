@@ -1,0 +1,56 @@
+package com.example.newsapp.Data;
+
+/*
+新冠疫情新闻类
+ */
+public class CovidNews
+{
+    private String id = "";
+    private String type = "";
+    private String title = "";
+    private String category = "";
+    private String time = "";
+    private String lang = "";
+    private String url ="";
+
+
+    public CovidNews(String id,String type,String title,String category,String time,String lang)
+    {
+        this.id=id;
+        this.type=type;
+        this.category=category;
+        this.lang=lang;
+        this.time=time;
+        this.title=title;
+        this.url="https://covid-dashboard.aminer.cn/api/event/"+this.id;
+    }
+    public String getId()
+    {
+        return this.id;
+    }
+    public String getType()
+    {
+        return this.type;
+    }
+    public String getTitle()
+    {
+        return this.title;
+    }
+    public String getCategory()
+    {
+        return this.category;
+    }
+    public String getTime()
+    {
+        return this.time;
+    }
+    public String getLang()
+    {
+        return this.lang;
+    }
+    public String getUrl()
+    {
+        return this.url;
+    }
+}
+

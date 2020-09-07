@@ -19,7 +19,7 @@ public class EntityManager
 {
     /*
     用于解析json格式的数据，生成对应的实体对象
-     */
+    */
     public VirusEntity analyseEntity(JSONObject eneity)
     {
         try
@@ -35,15 +35,21 @@ public class EntityManager
             JSONArray relations=covid.getJSONArray("relations");
             String img=eneity.getString("img");
             VirusEntity virus=new VirusEntity(hot,lable,url,description,properties,relations,img);
+            return virus;
         }
         catch (JSONException e)
         {
             e.printStackTrace();
         }
-
+        return null;
     }
-    public VirusEntity searchByQuery(String query)
+
+    /*
+    根据输入的query直接调用接口，返回查询的实体结果
+     */
+    public ArrayList<VirusEntity> searchByQuery(String query)
     {
+        ArrayList<VirusEntity> result=new ArrayList<>();
         OkHttpClient client = new OkHttpClient();
         String url="https://innovaapi.aminer.cn/covid/api/v1/pneumonia/entityquery?entity="+query;
         Request request = new Request.Builder().url(url).build();
@@ -54,37 +60,10 @@ public class EntityManager
             String responseData = response.body().string();
             JSONObject searchResult=new JSONObject(responseData);
             JSONArray data=searchResult.getJSONArray("data");
-            Iterator iter = data.keys();
-            while(iter.hasNext())
+            for (int i=0;i<data.length();i++)
             {
-                String key = (String) iter.next();
-                JSONObject value = data.getJSONObject(key);
-                String[] regions=key.split("\\|");
-                String country=regions[0];
-                String province="";
-                String conuty="";
-                if (regions.length>1)
-                {
-                    province=regions[1];
-                }
-                if (regions.length>2)
-                {
-                    conuty=regions[2];
-                }
-                String begin=value.getString("begin");
-                JSONArray numberList=value.getJSONArray("data");
-                ArrayList<ArrayList<Integer>> dataList=getNumData(numberList);//等待实现
-                ArrayList<Integer> confirmed=new ArrayList<Integer>();
-                ArrayList<Integer> suspected=new ArrayList<Integer>();
-                ArrayList<Integer> cured=new ArrayList<Integer>();
-                ArrayList<Integer> dead=new ArrayList<Integer>();
-                for (ArrayList<Integer> tmpList:dataList)
-                {
-                    confirmed.add(tmpList.indexOf(0));
-                    suspected.add(tmpList.indexOf(1));
-                    cured.add(tmpList.indexOf(2));
-                    dead.add(tmpList.indexOf(3));
-                }
+                JSONObject tmp=data.getJSONObject(i);
+                result.add(analyseEntity(tmp));
             }
 
         }
@@ -92,5 +71,6 @@ public class EntityManager
         {
             e.printStackTrace();
         }
+        return result;
     }
 }

@@ -1,5 +1,6 @@
 package com.example.newsapp.Data;
 import com.example.newsapp.Data.RegionData;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,11 +25,6 @@ public class RegionDataManager
     RegionDataManager()
     {
 
-    }
-    public ArrayList<ArrayList<Integer>> getNumData(JSONArray numberList)
-    {
-        ArrayList<ArrayList<Integer>> result=new ArrayList<>();
-        return result;
     }
     public void getRegionData()
     {
@@ -59,8 +55,8 @@ public class RegionDataManager
                     conuty=regions[2];
                 }
                 String begin=value.getString("begin");
-                JSONArray numberList=value.getJSONArray("data");
-                ArrayList<ArrayList<Integer>> dataList=getNumData(numberList);//等待实现
+                String numbers=value.getString("data");
+                ArrayList<ArrayList<Integer>> dataList=new Gson().fromJson(numbers,ArrayList.class);
                 ArrayList<Integer> confirmed=new ArrayList<Integer>();
                 ArrayList<Integer> suspected=new ArrayList<Integer>();
                 ArrayList<Integer> cured=new ArrayList<Integer>();

@@ -10,9 +10,10 @@ import java.util.List;
  */
 public class NewsManager
 {
+    private int searchNum; //新闻关键词搜索时搜索的范围
     NewsManager()
     {
-
+        this.searchNum=1000;
     }
     /*
     添加单个新闻到历史记录并离线保存
@@ -51,6 +52,13 @@ public class NewsManager
             news.add(new CovidNews((covidNews)));
         }
         return news;
+    }
+    /*
+    新闻关键词搜索函数，输入为字符串query，返回的搜索结果为排序后的List
+     */
+    public ArrayList<CovidNews> searchByQuery(String query)
+    {
+        return null;//还没写
     }
 
 }

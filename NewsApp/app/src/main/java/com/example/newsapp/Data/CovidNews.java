@@ -24,6 +24,16 @@ public class CovidNews
         this.title=title;
         this.url="https://covid-dashboard.aminer.cn/api/event/"+this.id;
     }
+    public CovidNews(CovidNewsWithText news)
+    {
+        this.id=news.getId();
+        this.type=news.getType();
+        this.title=news.getTitle();
+        this.category=news.getCategory();
+        this.time=news.getTime();
+        this.lang=news.getLang();
+        this.url=news.getUrl();
+    }
     public String getId()
     {
         return this.id;

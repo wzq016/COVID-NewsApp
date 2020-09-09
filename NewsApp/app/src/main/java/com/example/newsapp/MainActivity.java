@@ -30,8 +30,8 @@ public class MainActivity extends AppCompatActivity {
         Thread thread=new Thread(new Runnable() {
             @Override
             public void run() {
-                RegionDataManager law=new RegionDataManager();
-                law.getRegionData();
+                NewsManager law=new NewsManager();
+                law.searchByQuery("xixi");
             }
         });
         thread.start();

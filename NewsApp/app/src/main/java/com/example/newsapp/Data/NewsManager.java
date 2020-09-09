@@ -1,9 +1,17 @@
 package com.example.newsapp.Data;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.litepal.LitePal;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /*
 用来管理新闻数据的类
@@ -11,7 +19,7 @@ import java.util.List;
 public class NewsManager
 {
     private int searchNum; //新闻关键词搜索时搜索的范围
-    NewsManager()
+    public NewsManager()
     {
         this.searchNum=1000;
     }
@@ -54,11 +62,74 @@ public class NewsManager
         return news;
     }
     /*
+    解析新闻的函数，将json格式的新闻解析为CovidNews类
+    verified
+     */
+    public CovidNews analyseNews(JSONObject news)
+    {
+        try
+        {
+            String id="";
+            String type="";
+            String category="";
+            String title="";
+            String source="";
+            String time="";
+            String lang="";
+            if(news.has("_id"))
+                id=news.getString("_id");
+            if(news.has("type"))
+                type=news.getString("type");
+            if(news.has("category"))
+                category=news.getString("category");
+            if(news.has("title"))
+                title=news.getString("title");
+            if(news.has("source"))
+                source=news.getString("source");
+            if(news.has("time"))
+                time=news.getString("time");
+            if(news.has("lang"))
+                lang=news.getString("lang");
+            CovidNews covidNews=new CovidNews(id,type,title,category,time,lang,source);
+            return covidNews;
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    /*
     新闻关键词搜索函数，输入为字符串query，返回的搜索结果为排序后的List
      */
     public ArrayList<CovidNews> searchByQuery(String query)
     {
-        return null;//还没写
+        /*
+        返回前20条新闻
+         */
+        ArrayList<CovidNews> result=new ArrayList();
+        String url="https://covid-dashboard.aminer.cn/api/events/list";
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder().url(url).build();
+        Response response = null;
+        try
+        {
+            response = client.newCall(request).execute();
+            String responseData = response.body().string();
+            JSONObject searchResult=new JSONObject(responseData);
+            JSONArray data=searchResult.getJSONArray("data");
+            for (int i=0;i<data.length();i++)
+            {
+                JSONObject tmp=data.getJSONObject(i);
+                result.add(analyseNews(tmp));
+            }
+        }
+        catch (IOException | JSONException e)
+        {
+            e.printStackTrace();
+        }
+
+        return result;//还没写
     }
     /*
     分类搜索函数，按照类别显示新闻
@@ -75,5 +146,11 @@ public class NewsManager
         }
         return newsSelected;
     }
-
+    /*
+     按照新闻id返回新闻正文对象
+     */
+    public CovidNewsWithText getNewsWithText(CovidNews news)
+    {
+        return new CovidNewsWithText(news);
+    }
 }

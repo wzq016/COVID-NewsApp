@@ -26,7 +26,11 @@ public class CovidNewsWithText extends LitePalSupport
     private String date="";
     private String source="";
     private String seg_text="";
-    private JSONArray relatedEvents;
+    private JSONArray relatedEvents=null;
+    /*
+    构造函数，以不带正文的CovidNews为参数，根据url访问服务器，补充相关数据，生成新的对象
+    verified
+     */
     public CovidNewsWithText(CovidNews news)
     {
         super();
@@ -46,19 +50,24 @@ public class CovidNewsWithText extends LitePalSupport
             String responseData = response.body().string();
             JSONObject NewsText=new JSONObject(responseData);
             JSONObject data=NewsText.getJSONObject("data");
-            this.content=data.getString("content");
-            this.date=data.getString("date");
+            if (data.has("content"))
+                this.content=data.getString("content");
+            if (data.has("date"))
+                this.date=data.getString("date");
             if (data.has("source"))
             {
                 this.source=data.getString("source");
             }
-            this.seg_text=data.getString("seg_text");
-            this.relatedEvents=data.getJSONArray("related_events");
+            if(data.has("seg_text"))
+                this.seg_text=data.getString("seg_text");
+            if(data.has("related_events"))
+                this.relatedEvents=data.getJSONArray("related_events");
         }
         catch (IOException | JSONException e)
         {
             e.printStackTrace();
         }
+
     }
     public String getId()
     {

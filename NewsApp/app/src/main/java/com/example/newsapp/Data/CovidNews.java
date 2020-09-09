@@ -12,9 +12,10 @@ public class CovidNews
     private String time = "";
     private String lang = "";
     private String url ="";
+    private String source="";
 
 
-    public CovidNews(String id,String type,String title,String category,String time,String lang)
+    public CovidNews(String id,String type,String title,String category,String time,String lang,String source)
     {
         this.id=id;
         this.type=type;
@@ -23,6 +24,7 @@ public class CovidNews
         this.time=time;
         this.title=title;
         this.url="https://covid-dashboard.aminer.cn/api/event/"+this.id;
+        this.source=source;
     }
     public CovidNews(CovidNewsWithText news)
     {
@@ -33,6 +35,10 @@ public class CovidNews
         this.time=news.getTime();
         this.lang=news.getLang();
         this.url=news.getUrl();
+    }
+    public String getSource()
+    {
+        return this.source;
     }
     public String getId()
     {

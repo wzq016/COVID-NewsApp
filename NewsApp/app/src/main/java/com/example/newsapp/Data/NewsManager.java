@@ -60,5 +60,20 @@ public class NewsManager
     {
         return null;//还没写
     }
+    /*
+    分类搜索函数，按照类别显示新闻
+     */
+    public ArrayList<CovidNews> newsClassify(String type,ArrayList<CovidNews> newsToBeClassified)
+    {
+        ArrayList<CovidNews> newsSelected=new ArrayList<>();
+        for (CovidNews news:newsToBeClassified)
+        {
+            if(news.getType().equals(type))
+            {
+                newsSelected.add(news);
+            }
+        }
+        return newsSelected;
+    }
 
 }

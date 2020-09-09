@@ -108,7 +108,7 @@ public class NewsManager
         返回前20条新闻
          */
         ArrayList<CovidNews> result=new ArrayList();
-        String url="https://covid-dashboard.aminer.cn/api/events/list";
+        String url="https://covid-dashboard.aminer.cn/api/events/list?size=10";
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder().url(url).build();
         Response response = null;
@@ -133,6 +133,7 @@ public class NewsManager
     }
     /*
     分类搜索函数，按照类别显示新闻
+    verified
      */
     public ArrayList<CovidNews> newsClassify(String type,ArrayList<CovidNews> newsToBeClassified)
     {

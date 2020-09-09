@@ -32,16 +32,8 @@ public class MainActivity extends AppCompatActivity {
         Thread thread=new Thread(new Runnable() {
             @Override
             public void run() {
-                NewsManager law=new NewsManager();
-                ArrayList<CovidNews> wzq=law.searchByQuery("xixi");
-                ArrayList<CovidNews> classfied=law.newsClassify("paper",wzq);
-                System.out.println(classfied.size());
-                for (CovidNews news:classfied)
-                {
-                    System.out.println(news.getId());
-                    System.out.println(news.getTitle());
-                    System.out.println(news.getType());
-                }
+                ExpertManager law=new ExpertManager();
+                law.getExpertsOnline();
             }
         });
         thread.start();

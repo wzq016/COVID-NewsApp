@@ -6,13 +6,44 @@ import org.json.JSONObject;
 import org.litepal.LitePal;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+/*
+新闻排序用的比较器类
+verified
+ */
+class newsComparator implements Comparator {
+    public int compare(Object o1, Object o2) {
+        CovidNews news1 = (CovidNews) o1;
+        CovidNews news2 = (CovidNews) o2;
+        try
+        {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+            Date d1=sdf.parse(news1.getDate());
+            Date d2=sdf.parse(news2.getDate());
+            if(d1.after(d2))
+                return -1;
+            else
+                return 1;
+        }
+        catch (ParseException e)
+        {
+            e.printStackTrace();
+        }
+        return 1;
+    }
+}
 /*
 用来管理新闻数据的类
  */
@@ -76,6 +107,7 @@ public class NewsManager
             String source="";
             String time="";
             String lang="";
+            String date="";
             if(news.has("_id"))
                 id=news.getString("_id");
             if(news.has("type"))
@@ -90,7 +122,9 @@ public class NewsManager
                 time=news.getString("time");
             if(news.has("lang"))
                 lang=news.getString("lang");
-            CovidNews covidNews=new CovidNews(id,type,title,category,time,lang,source);
+            if(news.has("date"))
+                date=news.getString("date");
+            CovidNews covidNews=new CovidNews(id,type,title,category,time,lang,source,date);
             return covidNews;
         }
         catch (JSONException e)
@@ -149,9 +183,21 @@ public class NewsManager
     }
     /*
      按照新闻id返回新闻正文对象
+     verified
      */
     public CovidNewsWithText getNewsWithText(CovidNews news)
     {
         return new CovidNewsWithText(news);
+    }
+    /*
+    排序函数，对新闻List按照时间排序，越新的新闻越靠前
+    verified
+     */
+    public void sortByDate(ArrayList<CovidNews> newsList)
+    {
+        newsComparator cmp=new newsComparator();
+        Collections.sort(newsList,cmp);
+        System.out.println("after sort:");
+
     }
 }

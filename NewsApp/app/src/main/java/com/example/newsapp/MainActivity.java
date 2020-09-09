@@ -32,8 +32,9 @@ public class MainActivity extends AppCompatActivity {
         Thread thread=new Thread(new Runnable() {
             @Override
             public void run() {
-                ExpertManager law=new ExpertManager();
-                law.getExpertsOnline();
+                NewsManager law=new NewsManager();
+                ArrayList<CovidNews> tmp=law.searchByQuery("aaa");
+                law.sortByDate(tmp);
             }
         });
         thread.start();

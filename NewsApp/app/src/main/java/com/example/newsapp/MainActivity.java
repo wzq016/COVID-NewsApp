@@ -15,6 +15,7 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import com.example.newsapp.Data.*;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,6 +27,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        Thread thread=new Thread(new Runnable() {
+            @Override
+            public void run() {
+                EntityManager law=new EntityManager();
+                law.searchByQuery("药");
+            }
+        });
+        thread.start();
+
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

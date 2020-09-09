@@ -1,6 +1,8 @@
 package com.example.newsapp.Data;
 import com.example.newsapp.Data.RegionData;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,10 +24,14 @@ import okhttp3.Response;
 public class RegionDataManager
 {
     private ArrayList<RegionData> AllRegionData=new ArrayList<RegionData>();
-    RegionDataManager()
+    public RegionDataManager()
     {
 
     }
+    /*
+    从服务器获取所有地区的疫情数据情况并存入AllRegionData中
+    verified
+     */
     public void getRegionData()
     {
         OkHttpClient client = new OkHttpClient();
@@ -56,26 +62,27 @@ public class RegionDataManager
                 }
                 String begin=value.getString("begin");
                 String numbers=value.getString("data");
-                ArrayList<ArrayList<Integer>> dataList=new Gson().fromJson(numbers,ArrayList.class);
+                ArrayList<ArrayList<Integer>> dataList=new Gson().fromJson(numbers,new TypeToken<ArrayList<ArrayList<Integer>>>(){}.getType());
                 ArrayList<Integer> confirmed=new ArrayList<Integer>();
                 ArrayList<Integer> suspected=new ArrayList<Integer>();
                 ArrayList<Integer> cured=new ArrayList<Integer>();
                 ArrayList<Integer> dead=new ArrayList<Integer>();
                 for (ArrayList<Integer> tmpList:dataList)
                 {
-                    confirmed.add(tmpList.indexOf(0));
-                    suspected.add(tmpList.indexOf(1));
-                    cured.add(tmpList.indexOf(2));
-                    dead.add(tmpList.indexOf(3));
+                    confirmed.add(tmpList.get(0));
+                    suspected.add(tmpList.get(1));
+                    cured.add(tmpList.get(2));
+                    dead.add(tmpList.get(3));
                 }
+
                 AllRegionData.add(new RegionData(country,province,conuty,begin,confirmed,suspected,cured,dead));
             }
-
         }
         catch (IOException | JSONException e)
         {
             e.printStackTrace();
         }
+
     }
     public ArrayList<RegionData> getAllRegionData()
     {

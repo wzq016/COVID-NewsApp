@@ -20,9 +20,10 @@ public class CovidNews
     private String url ="";
     private String source="";
     private String date="";
+    private String segText="";
+    private double tfidfScore=0.0;
 
-
-    public CovidNews(String id,String type,String title,String category,String time,String lang,String source,String date)
+    public CovidNews(String id,String type,String title,String category,String time,String lang,String source,String date,String segText)
     {
         this.id=id;
         this.type=type;
@@ -33,6 +34,7 @@ public class CovidNews
         this.url="https://covid-dashboard.aminer.cn/api/event/"+this.id;
         this.source=source;
         this.date=date;
+        this.segText=segText;
         try
         {
             SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US);
@@ -75,6 +77,18 @@ public class CovidNews
             e.printStackTrace();
         }
         return 1;
+    }
+    public String getSegText()
+    {
+        return this.segText;
+    }
+    public double getTfidfScore()
+    {
+        return this.tfidfScore;
+    }
+    public void setTfidfScore(double score)
+    {
+        this.tfidfScore=score;
     }
     public String getDate()
     {

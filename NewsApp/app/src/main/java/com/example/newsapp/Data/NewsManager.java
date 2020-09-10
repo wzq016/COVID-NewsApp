@@ -256,17 +256,6 @@ public class NewsManager
         newsTfIdfComparator cmp=new newsTfIdfComparator();
         Collections.sort(result,cmp);
         System.out.println(result.size());
-        int cnt=0;
-
-        for(CovidNews news:result)
-        {
-            if(news.getTfidfScore()>0.001)
-                cnt++;
-            System.out.println(news.getId()+' '+news.getTfidfScore());
-            System.out.println(news.getSegText());
-        }
-        System.out.println(cnt);
-
         return result;
     }
     /*

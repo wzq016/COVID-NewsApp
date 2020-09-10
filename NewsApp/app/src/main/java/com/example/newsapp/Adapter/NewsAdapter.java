@@ -27,6 +27,11 @@ public class NewsAdapter extends ArrayAdapter<CovidNews> {
         search_parent = parent;
     }
 
+    public NewsAdapter(Context context, int textViewResourceId, List<CovidNews> objects) {
+        super(context, textViewResourceId, objects);
+        this.textViewResourceId = textViewResourceId;
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         CovidNews news = getItem(position);

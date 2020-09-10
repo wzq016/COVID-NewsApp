@@ -25,11 +25,15 @@ import com.example.newsapp.Adapter.NewsAdapter;
 import com.example.newsapp.Data.CovidNews;
 import com.example.newsapp.Data.CovidNewsWithText;
 import com.example.newsapp.Data.NewsManager;
+import com.example.newsapp.Data.SearchHistory;
 import com.example.newsapp.R;
 import com.example.newsapp.Thread.GetContentThread;
 import com.example.newsapp.Thread.SearchThread;
 import com.example.newsapp.utils.StaticVar;
 import com.google.android.material.tabs.TabLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.lang.reflect.Array;
 import java.util.*;
@@ -41,12 +45,18 @@ public class HomepageFragment extends Fragment{
     private ArrayList<String> categ_list;
     private ViewPager viewpager;
     private ArrayList<Fragment> fragments = new ArrayList<>();
+    private ListView listview_news;
+    private ArrayList<CovidNews> newslist;
+    private NewsManager newsmanager;
+    private NewsAdapter newsadapter;
 //    private FmPagerAdapter pagerAdapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState)
     {
         view = inflater.inflate(R.layout.fragment_homepage,container,false);
         init_tab();
+        init_listview();
+        init_pull();
         return view;
     }
 
@@ -94,6 +104,45 @@ public class HomepageFragment extends Fragment{
                 categ_list.add(str);
             }
         }
+    }
+
+    private void init_listview(){
+        listview_news = view.findViewById(R.id.news_listview_smart);
+        newslist = new ArrayList<CovidNews>();
+        newsmanager = new NewsManager();
+        search("COVID");
+        newsadapter = new NewsAdapter(getContext(), R.layout.one_news, newslist);
+        listview_news.setAdapter(newsadapter);
+    }
+
+    private void search(String content){
+        newslist.clear();
+        SearchThread searchthread = new SearchThread(content,newsmanager,newslist);
+        Thread thread = new Thread(searchthread);
+        thread.start();
+        try{
+            thread.join();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private void init_pull(){
+        RefreshLayout refreshLayout = (RefreshLayout)view.findViewById(R.id.refreshLayout);
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                search("libya");
+                refreshlayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
+            }
+        });
+        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(RefreshLayout refreshlayout) {
+                refreshlayout.finishLoadMore(2000/*,false*/);//传入false表示加载失败
+            }
+        });
     }
 
 }

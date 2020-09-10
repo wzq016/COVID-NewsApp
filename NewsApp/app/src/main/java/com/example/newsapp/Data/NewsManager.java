@@ -19,6 +19,10 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.huaban.analysis.jieba.*;
+
 /*
 新闻排序用的比较器类
 verified
@@ -72,6 +76,26 @@ public class NewsManager
             NewsHistory history=new NewsHistory(newsID);
             history.updateAll("newsID= ? ",newsID);
         }
+    }
+    /*
+    添加一条query到本地搜索记录
+     */
+    public void addToSearchHistory(SearchHistory searchHistory)
+    {
+        searchHistory.save();
+    }
+    /*
+    返回所有的搜索记录
+     */
+    public ArrayList<String> getSearchHistory()
+    {
+        List<SearchHistory> searchHistories = LitePal.where().find(SearchHistory.class);
+        ArrayList<String> result=new ArrayList<>();
+        for (SearchHistory history:searchHistories)
+        {
+            result.add(history.getQuery());
+        }
+        return result;
     }
     /*
     展示历史记录
@@ -162,8 +186,19 @@ public class NewsManager
         {
             e.printStackTrace();
         }
+        JiebaSegmenter segmenter = new JiebaSegmenter();
+        String jiebaOutput=segmenter.process(query, JiebaSegmenter.SegMode.SEARCH).toString();
+        ArrayList<ArrayList<String>> rawSplitList=new Gson().fromJson(jiebaOutput,new TypeToken<ArrayList<ArrayList<String>>>(){}.getType());
+        /*
+        对query进行分词
+         */
+        ArrayList<String> splitList=new ArrayList<>();
+        for (ArrayList<String> list:rawSplitList)
+        {
+            splitList.add(list.get(0));
+        }
 
-        return result;//还没写
+        return result;
     }
     /*
     分类搜索函数，按照类别显示新闻

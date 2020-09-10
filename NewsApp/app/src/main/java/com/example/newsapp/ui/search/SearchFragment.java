@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -16,6 +17,8 @@ import com.example.newsapp.Adapter.NewsAdapter;
 import com.example.newsapp.Data.CovidNews;
 import com.example.newsapp.Data.NewsManager;
 import com.example.newsapp.R;
+import com.example.newsapp.Thread.SearchThread;
+
 import java.util.*;
 
 
@@ -26,7 +29,7 @@ public class SearchFragment extends Fragment{
     private ArrayList<CovidNews> newslist;
     private ListView listview_news;
     private NewsManager newsmanager;
-    private LinearLayout history_layout;
+    private RelativeLayout history_layout;
     private NewsAdapter newsadapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -56,9 +59,11 @@ public class SearchFragment extends Fragment{
             @Override
             public void onClick(View view) {
                 String searchContent = search_content.getText().toString().trim();
-                System.out.println(searchContent);
                 if (searchContent.length() != 0){
-                    newslist = newsmanager.searchByQuery(searchContent);
+                    search(searchContent);
+                    for(CovidNews news_:newslist){
+                        System.out.println(news_.getTitle());
+                    }
                     listview_news.setVisibility(View.VISIBLE);
                     history_layout.setVisibility(View.GONE);
 //                    linearLayout.setVisibility(View.GONE);
@@ -71,5 +76,17 @@ public class SearchFragment extends Fragment{
                 }
             }
         });
+    }
+
+    private void search(String content){
+        newslist.clear();
+        SearchThread searchthread = new SearchThread(content,newsmanager,newslist);
+        Thread thread = new Thread(searchthread);
+        thread.start();
+        try{
+            thread.join();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -33,8 +33,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 NewsManager law=new NewsManager();
-                ArrayList<CovidNews>aa=law.getNews();
-                law.newsClassify("paper",aa);
+                law.addToSearchHistory(new SearchHistory("query1"));
+                law.addToSearchHistory(new SearchHistory("query2"));
+                law.addToSearchHistory(new SearchHistory("query3"));
+                ArrayList<String> wzq=law.getSearchHistory();
+                for(String q:wzq)
+                {
+                    System.out.println(q);
+                }
             }
         });
         thread.start();

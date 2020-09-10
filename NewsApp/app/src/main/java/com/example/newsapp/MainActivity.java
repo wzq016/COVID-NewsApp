@@ -17,13 +17,11 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import com.example.newsapp.Data.*;
-
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +33,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 NewsManager law=new NewsManager();
-                law.searchByQuery("中国武汉病毒疫情");
+                ArrayList<CovidNews>aa=law.getNews();
+                law.newsClassify("paper",aa);
             }
         });
         thread.start();

@@ -34,6 +34,12 @@ android {
         }
     }
 
+    allprojects {
+        repositories {
+            maven { url 'https://jitpack.io' }
+        }
+    }
+
 }
 
 dependencies {
@@ -55,4 +61,5 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:3.12.1'
     implementation 'com.google.code.gson:gson:2.6.2'
     implementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.github.chengzhicao:ChannelView:v1.1.2'
 }

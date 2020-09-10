@@ -11,4 +11,5 @@
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="menu_search">搜索</string>
+    <string name="menu_homepage">主页</string>
 </resources>

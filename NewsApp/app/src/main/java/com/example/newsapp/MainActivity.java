@@ -32,15 +32,15 @@ public class MainActivity extends AppCompatActivity {
         Thread thread=new Thread(new Runnable() {
             @Override
             public void run() {
-                /*
+
                 NewsManager law=new NewsManager();
-                ArrayList<CovidNews> wzq=law.searchByQuery("johns hopkins");
+                ArrayList<CovidNews> wzq=law.searchByQuery("新冠肺炎");
                 for(CovidNews q:wzq)
                 {
                     System.out.println(q.getId()+' '+q.getTfidfScore());
                 }
                 System.out.println("print over");
-                 */
+
 
             }
         });

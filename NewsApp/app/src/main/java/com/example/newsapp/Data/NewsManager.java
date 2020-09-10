@@ -135,19 +135,20 @@ public class NewsManager
         ArrayList<String> splitList=new ArrayList<>();
         for (ArrayList<String> list:rawSplitList)
         {
-            splitList.add(list.get(0));
+            if(list.get(0)!=null)
+                splitList.add(list.get(0).toLowerCase());
         }
+
         /*
         计算每个keyword的idf
          */
         HashMap<String,Double> idf=new HashMap<>();
         for (String keyword:splitList)
         {
-            System.out.println(keyword);
             int count=0;
             for (CovidNews news:newsList)
             {
-                if(news.getSegText().contains(keyword))
+                if(news.getSegText().toLowerCase().contains(keyword))
                     count++;
             }
             double idfScore=Math.log((double)(1+newsList.size())/(double)(count+1));
@@ -159,11 +160,11 @@ public class NewsManager
         for (CovidNews news:newsList)
         {
             double tfidfScore=0.0;
-            String[] seg=news.getSegText().split(" ");
+            String[] seg=news.getSegText().toLowerCase().split(" ");
             List<String> segWords= Arrays.asList(seg);
             for (String keyword:splitList)
             {
-                double tf=((double)Collections.frequency(segWords,keyword)/(double)segWords.size());
+                double tf=((double)Collections.frequency(segWords,keyword.toLowerCase())/(double)segWords.size());
                 tfidfScore+=tf*idf.get(keyword);
             }
             news.setTfidfScore(tfidfScore);
@@ -178,7 +179,7 @@ public class NewsManager
         返回前20条新闻
          */
         ArrayList<CovidNews> result=new ArrayList();
-        String url="https://covid-dashboard.aminer.cn/api/events/list?size=100";
+        String url="https://covid-dashboard.aminer.cn/api/events/list?size=1000";
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder().url(url).build();
         Response response = null;

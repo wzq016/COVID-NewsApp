@@ -9,12 +9,14 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-
+import java.lang.Math;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -22,9 +24,8 @@ import okhttp3.Response;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.huaban.analysis.jieba.*;
-
 /*
-新闻排序用的比较器类
+新闻排序用的比较器类,用于时间排序
 verified
  */
 class newsComparator implements Comparator {
@@ -46,6 +47,21 @@ class newsComparator implements Comparator {
             e.printStackTrace();
         }
         return 1;
+    }
+}
+/*
+新闻排序用的比较器类,用于按照tfidf分数排序
+ */
+class newsTfIdfComparator implements Comparator {
+    public int compare(Object o1, Object o2) {
+        CovidNews news1 = (CovidNews) o1;
+        CovidNews news2 = (CovidNews) o2;
+        double score1=news1.getTfidfScore();
+        double score2=news2.getTfidfScore();
+        if(score1<score2)
+            return 1;
+        else
+            return -1;
     }
 }
 /*
@@ -132,6 +148,7 @@ public class NewsManager
             String time="";
             String lang="";
             String date="";
+            String segText="";
             if(news.has("_id"))
                 id=news.getString("_id");
             if(news.has("type"))
@@ -148,7 +165,9 @@ public class NewsManager
                 lang=news.getString("lang");
             if(news.has("date"))
                 date=news.getString("date");
-            CovidNews covidNews=new CovidNews(id,type,title,category,time,lang,source,date);
+            if(news.has("seg_text"))
+                segText=news.getString("seg_text");
+            CovidNews covidNews=new CovidNews(id,type,title,category,time,lang,source,date,segText);
             return covidNews;
         }
         catch (JSONException e)
@@ -156,6 +175,53 @@ public class NewsManager
             e.printStackTrace();
         }
         return null;
+    }
+    /*
+    计算tfidf分数
+     */
+    public void setScore(String query,ArrayList<CovidNews> newsList)
+    {
+        /*
+        先对query进行分词
+         */
+        JiebaSegmenter segmenter = new JiebaSegmenter();
+        String jiebaOutput=segmenter.process(query, JiebaSegmenter.SegMode.SEARCH).toString();
+        ArrayList<ArrayList<String>> rawSplitList=new Gson().fromJson(jiebaOutput,new TypeToken<ArrayList<ArrayList<String>>>(){}.getType());
+        ArrayList<String> splitList=new ArrayList<>();
+        for (ArrayList<String> list:rawSplitList)
+        {
+            splitList.add(list.get(0));
+        }
+        /*
+        计算每个keyword的idf
+         */
+        HashMap<String,Double> idf=new HashMap<String,Double>();
+        for (String keyword:splitList)
+        {
+            int count=0;
+            for (CovidNews news:newsList)
+            {
+                if(news.getSegText().contains(keyword))
+                    count++;
+            }
+            double idfScore=Math.log((double)(1+newsList.size())/(double)(count+1));
+            idf.put(keyword,idfScore);
+        }
+        /*
+        计算每条新闻的tf-idf分数
+         */
+        for (CovidNews news:newsList)
+        {
+            double tfidfScore=0.0;
+            String[] seg=news.getSegText().split(" ");
+            List<String> segWords= Arrays.asList(seg);
+            for (String keyword:splitList)
+            {
+                double tf=((double)Collections.frequency(segWords,keyword)/(double)segWords.size());
+                tfidfScore+=tf*idf.get(keyword);
+            }
+            news.setTfidfScore(tfidfScore);
+        }
     }
     /*
     新闻关键词搜索函数，输入为字符串query，返回的搜索结果为排序后的List
@@ -166,7 +232,7 @@ public class NewsManager
         返回前20条新闻
          */
         ArrayList<CovidNews> result=new ArrayList();
-        String url="https://covid-dashboard.aminer.cn/api/events/list?size=10";
+        String url="https://covid-dashboard.aminer.cn/api/events/list?size=100";
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder().url(url).build();
         Response response = null;
@@ -186,18 +252,10 @@ public class NewsManager
         {
             e.printStackTrace();
         }
-        JiebaSegmenter segmenter = new JiebaSegmenter();
-        String jiebaOutput=segmenter.process(query, JiebaSegmenter.SegMode.SEARCH).toString();
-        ArrayList<ArrayList<String>> rawSplitList=new Gson().fromJson(jiebaOutput,new TypeToken<ArrayList<ArrayList<String>>>(){}.getType());
-        /*
-        对query进行分词
-         */
-        ArrayList<String> splitList=new ArrayList<>();
-        for (ArrayList<String> list:rawSplitList)
-        {
-            splitList.add(list.get(0));
-        }
-
+        setScore(query,result);
+        newsTfIdfComparator cmp=new newsTfIdfComparator();
+        Collections.sort(result,cmp);
+        System.out.println(result.size());
         return result;
     }
     /*
@@ -232,7 +290,6 @@ public class NewsManager
     {
         newsComparator cmp=new newsComparator();
         Collections.sort(newsList,cmp);
-        System.out.println("after sort:");
     }
     /*
     排序函数，对新闻List按照PageRank算法排序

@@ -1,5 +1,11 @@
 package com.example.newsapp.Data;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
+
 /*
 新冠疫情新闻类
  */
@@ -12,9 +18,11 @@ public class CovidNews
     private String time = "";
     private String lang = "";
     private String url ="";
+    private String source="";
+    private String date="";
 
 
-    public CovidNews(String id,String type,String title,String category,String time,String lang)
+    public CovidNews(String id,String type,String title,String category,String time,String lang,String source,String date)
     {
         this.id=id;
         this.type=type;
@@ -23,6 +31,19 @@ public class CovidNews
         this.time=time;
         this.title=title;
         this.url="https://covid-dashboard.aminer.cn/api/event/"+this.id;
+        this.source=source;
+        this.date=date;
+        try
+        {
+            SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US);
+            Date s=sdf.parse(this.date);
+            sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.US);
+            this.date=sdf.format(s).toString();
+        }
+        catch (ParseException e)
+        {
+            e.printStackTrace();
+        }
     }
     public CovidNews(CovidNewsWithText news)
     {
@@ -33,6 +54,35 @@ public class CovidNews
         this.time=news.getTime();
         this.lang=news.getLang();
         this.url=news.getUrl();
+    }
+    /*
+    override排序接口
+     */
+    public int compareTo(CovidNews news)
+    {
+        try
+        {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+            Date d1=sdf.parse(this.date);
+            Date d2=sdf.parse(news.date);
+            if(d1.after(d2))
+                return 1;
+            else
+                return -1;
+        }
+        catch (ParseException e)
+        {
+            e.printStackTrace();
+        }
+        return 1;
+    }
+    public String getDate()
+    {
+        return this.date;
+    }
+    public String getSource()
+    {
+        return this.source;
     }
     public String getId()
     {

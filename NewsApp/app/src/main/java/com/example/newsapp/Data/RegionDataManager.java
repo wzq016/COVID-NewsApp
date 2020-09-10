@@ -1,6 +1,8 @@
 package com.example.newsapp.Data;
 import com.example.newsapp.Data.RegionData;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,10 +24,17 @@ import okhttp3.Response;
 public class RegionDataManager
 {
     private ArrayList<RegionData> AllRegionData=new ArrayList<RegionData>();
-    RegionDataManager()
+    private ArrayList<RegionData> provinceData=new ArrayList<>();
+    private ArrayList<RegionData> countryData=new ArrayList<>();
+    public RegionDataManager()
     {
 
     }
+    /*
+    从服务器获取所有地区的疫情数据情况并存入AllRegionData中
+    然后选择出中国各省的数据和全球各国的数据
+    verified
+     */
     public void getRegionData()
     {
         OkHttpClient client = new OkHttpClient();
@@ -56,29 +65,54 @@ public class RegionDataManager
                 }
                 String begin=value.getString("begin");
                 String numbers=value.getString("data");
-                ArrayList<ArrayList<Integer>> dataList=new Gson().fromJson(numbers,ArrayList.class);
+                ArrayList<ArrayList<Integer>> dataList=new Gson().fromJson(numbers,new TypeToken<ArrayList<ArrayList<Integer>>>(){}.getType());
                 ArrayList<Integer> confirmed=new ArrayList<Integer>();
                 ArrayList<Integer> suspected=new ArrayList<Integer>();
                 ArrayList<Integer> cured=new ArrayList<Integer>();
                 ArrayList<Integer> dead=new ArrayList<Integer>();
                 for (ArrayList<Integer> tmpList:dataList)
                 {
-                    confirmed.add(tmpList.indexOf(0));
-                    suspected.add(tmpList.indexOf(1));
-                    cured.add(tmpList.indexOf(2));
-                    dead.add(tmpList.indexOf(3));
+                    confirmed.add(tmpList.get(0));
+                    suspected.add(tmpList.get(1));
+                    cured.add(tmpList.get(2));
+                    dead.add(tmpList.get(3));
                 }
-                AllRegionData.add(new RegionData(country,province,conuty,begin,confirmed,suspected,cured,dead));
+                RegionData regionData=new RegionData(country,province,conuty,begin,confirmed,suspected,cured,dead);
+                if(regionData.getProvince().equals("")&&regionData.getCounty().equals(""))
+                {
+                    countryData.add(regionData);
+                }
+                if(regionData.getCountry().equals("China")&&regionData.getCounty().equals("")&&!regionData.getProvince().equals(""))
+                {
+                    provinceData.add(regionData);
+                }
+                AllRegionData.add(regionData);
             }
-
         }
         catch (IOException | JSONException e)
         {
             e.printStackTrace();
         }
     }
+    /*
+    获取全部地区的疫情数据
+     */
     public ArrayList<RegionData> getAllRegionData()
     {
         return this.AllRegionData;
+    }
+    /*
+    获取中国各省的疫情数据
+     */
+    public ArrayList<RegionData> getProvinceData()
+    {
+        return this.provinceData;
+    }
+    /*
+    获取全球各国的疫情数据
+     */
+    public ArrayList<RegionData> getCountryData()
+    {
+        return this.countryData;
     }
 }

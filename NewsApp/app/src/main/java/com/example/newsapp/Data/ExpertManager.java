@@ -14,14 +14,23 @@ import okhttp3.Response;
 
 /*
 管理知疫学者数据相关操作的类
+
  */
 public class ExpertManager
 {
     private ArrayList<Expert> experts;
-    ExpertManager()
+    public ExpertManager()
     {
         this.experts=new ArrayList<>();
     }
+    public ArrayList<Expert> getExperts()
+    {
+        return this.experts;
+    }
+    /*
+    解析json格式的数据到expert类对象
+    verified
+     */
     public Expert analyseExperrt(JSONObject jsonExpert)
     {
         try
@@ -37,7 +46,7 @@ public class ExpertManager
             double diversity=indices.getDouble("diversity");
             int gindex=indices.getInt("gindex");
             int hindex=indices.getInt("hindex");
-            double sociability=indices.getInt("sociability");
+            double sociability=indices.getDouble("sociability");
             double newStar=indices.getDouble("newStar");
             double risingStar=indices.getDouble("risingStar");
             int pubs=indices.getInt("pubs");
@@ -54,8 +63,9 @@ public class ExpertManager
     }
     /*
     从网页获取学者的数据
+    verified
      */
-    public void getExperts()
+    public void getExpertsOnline()
     {
         OkHttpClient client = new OkHttpClient();
         String url="https://innovaapi.aminer.cn/predictor/api/v1/valhalla/highlight/get_ncov_expers_list?v=2";
@@ -77,5 +87,6 @@ public class ExpertManager
         {
             e.printStackTrace();
         }
+
     }
 }

@@ -1,5 +1,7 @@
 package com.example.newsapp.Data;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,13 +21,14 @@ public class EntityManager
 {
     /*
     用于解析json格式的数据，生成对应的实体对象
+    Verified
     */
     public VirusEntity analyseEntity(JSONObject eneity)
     {
         try
         {
             double hot=eneity.getDouble("hot");
-            String lable=eneity.getString("lable");
+            String label=eneity.getString("label");
             String url=eneity.getString("url");
             JSONObject abstractInfo=eneity.getJSONObject("abstractInfo");
             String description=abstractInfo.getString("enwiki")+"\n"+abstractInfo.getString("baidu")
@@ -34,7 +37,7 @@ public class EntityManager
             JSONObject properties=covid.getJSONObject("properties");
             JSONArray relations=covid.getJSONArray("relations");
             String img=eneity.getString("img");
-            VirusEntity virus=new VirusEntity(hot,lable,url,description,properties,relations,img);
+            VirusEntity virus=new VirusEntity(hot,label,url,description,properties,relations,img);
             return virus;
         }
         catch (JSONException e)
@@ -43,9 +46,9 @@ public class EntityManager
         }
         return null;
     }
-
     /*
     根据输入的query直接调用接口，返回查询的实体结果
+    Verified
      */
     public ArrayList<VirusEntity> searchByQuery(String query)
     {

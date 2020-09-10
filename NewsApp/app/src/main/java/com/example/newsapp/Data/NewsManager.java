@@ -258,6 +258,44 @@ public class NewsManager
         System.out.println(result.size());
         return result;
     }
+    public ArrayList<CovidNews> getNews()
+    {
+        ArrayList<CovidNews> result=new ArrayList();
+        String url="https://covid-dashboard.aminer.cn/api/events/list?type=paper&size=150";
+        String url2="https://covid-dashboard.aminer.cn/api/events/list?type=news&size=150";
+        OkHttpClient client = new OkHttpClient();
+        try
+        {
+            Request request = new Request.Builder().url(url).build();
+            Response response = null;
+            response = client.newCall(request).execute();
+            String responseData = response.body().string();
+            JSONObject searchResult=new JSONObject(responseData);
+            JSONArray data=searchResult.getJSONArray("data");
+            for (int i=0;i<data.length();i++)
+            {
+                JSONObject tmp=data.getJSONObject(i);
+                result.add(analyseNews(tmp));
+            }
+            Request request2 = new Request.Builder().url(url2).build();
+            Response response2 = null;
+            response2 = client.newCall(request2).execute();
+            String responseData2 = response2.body().string();
+            JSONObject searchResult2=new JSONObject(responseData2);
+            JSONArray data2=searchResult2.getJSONArray("data");
+            for (int i=0;i<data2.length();i++)
+            {
+                JSONObject tmp=data2.getJSONObject(i);
+                result.add(analyseNews(tmp));
+            }
+        }
+        catch (IOException | JSONException e)
+        {
+            e.printStackTrace();
+        }
+        Collections.shuffle(result);
+        return result;
+    }
     /*
     分类搜索函数，按照类别显示新闻
     verified
@@ -272,6 +310,7 @@ public class NewsManager
                 newsSelected.add(news);
             }
         }
+
         return newsSelected;
     }
     /*

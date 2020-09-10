@@ -5,7 +5,8 @@
         <version value="1"></version>
         <list>
             <mapping class="com.example.newsapp.Data.CovidNewsWithText"></mapping>
-            <mapping class="com.java.chenguo.DataBase.NewsHistory"></mapping>
+            <mapping class="com.example.newsapp.Data.SearchHistory"></mapping>
+            <mapping class="com.example.newsapp.Data.NewsHistory"></mapping>
         </list>
 
 </litepal>

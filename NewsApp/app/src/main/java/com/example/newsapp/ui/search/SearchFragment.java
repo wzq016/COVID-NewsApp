@@ -16,15 +16,19 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.newsapp.Activity.ShowNewsActivity;
 import com.example.newsapp.Adapter.NewsAdapter;
 import com.example.newsapp.Data.CovidNews;
 import com.example.newsapp.Data.CovidNewsWithText;
 import com.example.newsapp.Data.NewsManager;
+import com.example.newsapp.Data.SearchHistory;
 import com.example.newsapp.R;
 import com.example.newsapp.Thread.GetContentThread;
 import com.example.newsapp.Thread.SearchThread;
+import com.example.newsapp.utils.StaticVar;
 
 import java.util.*;
 
@@ -39,6 +43,8 @@ public class SearchFragment extends Fragment{
     private RelativeLayout history_layout;
     private NewsAdapter newsadapter;
     private EditText edittext;
+    private ArrayList<History> history_list;
+    private RecyclerView recyclerView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 
@@ -59,6 +65,21 @@ public class SearchFragment extends Fragment{
 
         history_layout = view.findViewById(R.id.history);
         history_layout.setVisibility(View.VISIBLE);
+
+
+        history_list = new ArrayList<History>();
+        ArrayList<String> historys = newsmanager.getSearchHistory();
+        for(String content:historys)
+            history_list.add(new History(content,R.id.history_delete));
+
+
+
+        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        HistoryAdapter adapter = new HistoryAdapter(history_list);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setVisibility(View.VISIBLE);
     }
 
     private void init_search(){
@@ -91,6 +112,7 @@ public class SearchFragment extends Fragment{
                     search(searchContent);
                     listview_news.setVisibility(View.VISIBLE);
                     history_layout.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.GONE);
                 }else {
                     Toast.makeText(getContext(), "请输入内容", Toast.LENGTH_SHORT).show();
                 }
@@ -129,6 +151,7 @@ public class SearchFragment extends Fragment{
     }
 
     private void search(String content){
+        newsmanager.addToSearchHistory(new SearchHistory(content));
         newslist.clear();
         SearchThread searchthread = new SearchThread(content,newsmanager,newslist);
         Thread thread = new Thread(searchthread);

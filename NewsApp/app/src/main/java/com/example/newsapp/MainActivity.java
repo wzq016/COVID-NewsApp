@@ -32,9 +32,8 @@ public class MainActivity extends AppCompatActivity {
         Thread thread=new Thread(new Runnable() {
             @Override
             public void run() {
-                NewsManager law=new NewsManager();
-                ArrayList<CovidNews> tmp=law.searchByQuery("aaa");
-                law.sortByDate(tmp);
+                RegionDataManager law=new RegionDataManager();
+                law.getRegionData();
             }
         });
         thread.start();

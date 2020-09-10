@@ -198,6 +198,12 @@ public class NewsManager
         newsComparator cmp=new newsComparator();
         Collections.sort(newsList,cmp);
         System.out.println("after sort:");
+    }
+    /*
+    排序函数，对新闻List按照PageRank算法排序
+     */
+    public void sortByPagerank(ArrayList<CovidNews> newsList)
+    {
 
     }
 }

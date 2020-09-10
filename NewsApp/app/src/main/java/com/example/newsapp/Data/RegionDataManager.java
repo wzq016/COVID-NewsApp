@@ -24,12 +24,15 @@ import okhttp3.Response;
 public class RegionDataManager
 {
     private ArrayList<RegionData> AllRegionData=new ArrayList<RegionData>();
+    private ArrayList<RegionData> provinceData=new ArrayList<>();
+    private ArrayList<RegionData> countryData=new ArrayList<>();
     public RegionDataManager()
     {
 
     }
     /*
     从服务器获取所有地区的疫情数据情况并存入AllRegionData中
+    然后选择出中国各省的数据和全球各国的数据
     verified
      */
     public void getRegionData()
@@ -74,18 +77,42 @@ public class RegionDataManager
                     cured.add(tmpList.get(2));
                     dead.add(tmpList.get(3));
                 }
-
-                AllRegionData.add(new RegionData(country,province,conuty,begin,confirmed,suspected,cured,dead));
+                RegionData regionData=new RegionData(country,province,conuty,begin,confirmed,suspected,cured,dead);
+                if(regionData.getProvince().equals("")&&regionData.getCounty().equals(""))
+                {
+                    countryData.add(regionData);
+                }
+                if(regionData.getCountry().equals("China")&&regionData.getCounty().equals("")&&!regionData.getProvince().equals(""))
+                {
+                    provinceData.add(regionData);
+                }
+                AllRegionData.add(regionData);
             }
         }
         catch (IOException | JSONException e)
         {
             e.printStackTrace();
         }
-
     }
+    /*
+    获取全部地区的疫情数据
+     */
     public ArrayList<RegionData> getAllRegionData()
     {
         return this.AllRegionData;
+    }
+    /*
+    获取中国各省的疫情数据
+     */
+    public ArrayList<RegionData> getProvinceData()
+    {
+        return this.provinceData;
+    }
+    /*
+    获取全球各国的疫情数据
+     */
+    public ArrayList<RegionData> getCountryData()
+    {
+        return this.countryData;
     }
 }

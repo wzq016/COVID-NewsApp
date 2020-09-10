@@ -11,7 +11,7 @@ import java.util.List;
 public class NewsManager
 {
     private int searchNum; //新闻关键词搜索时搜索的范围
-    NewsManager()
+    public NewsManager()
     {
         this.searchNum=1000;
     }

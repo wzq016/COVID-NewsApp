@@ -35,6 +35,35 @@ public class HistoryManager
         }
     }
     /*
+    返回所有的浏览记录
+     */
+    public ArrayList<CovidNews> getNewsHistory()
+    {
+        List<CovidNewsWithText> searchHistories = LitePal.where().find(CovidNewsWithText.class);
+        ArrayList<CovidNews> result=new ArrayList<>();
+        for (CovidNewsWithText news:searchHistories)
+        {
+            result.add(new CovidNews(news));
+        }
+        return result;
+    }
+    /*
+    删除单条浏览记录
+     */
+    public void deleteNewsHistory(String id)
+    {
+        LitePal.deleteAll(NewsHistory.class, "newsID = ?",id);
+        LitePal.deleteAll(CovidNewsWithText.class, "id = ?",id);
+    }
+    /*
+    删除所有浏览记录
+     */
+    public void deleteAllNewsHistory()
+    {
+        LitePal.deleteAll(NewsHistory.class);
+        LitePal.deleteAll(CovidNewsWithText.class);
+    }
+    /*
     添加一条query到本地搜索记录
      */
     public void addToSearchHistory(String query)
@@ -73,23 +102,5 @@ public class HistoryManager
     {
         LitePal.deleteAll(SearchHistory.class);
     }
-    /*
-    展示历史记录
-     */
-    public ArrayList<CovidNews> getNewsHistory()
-    {
-        ArrayList<NewsHistory> readHistories =new ArrayList<>();
-        List<NewsHistory> tmpList = LitePal.where().find(NewsHistory.class);
-        if(tmpList.size() > 0)
-        {
-            readHistories.addAll(tmpList);
-        }
-        ArrayList<CovidNews> news = new ArrayList<>();
-        for (NewsHistory history : readHistories)
-        {
-            CovidNewsWithText covidNews = LitePal.where("newsID = ?", history.getNewsID()).findFirst(CovidNewsWithText.class);
-            news.add(new CovidNews((covidNews)));
-        }
-        return news;
-    }
+
 }

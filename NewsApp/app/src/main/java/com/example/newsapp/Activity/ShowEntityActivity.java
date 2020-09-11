@@ -19,8 +19,16 @@ public class ShowEntityActivity extends Activity{
     private ImageView entity_img;
     private ImageView kg_back2list;
 
+    private TextView entity_des;
+    private TextView entity_property;
+    private TextView entity_relation;
+
     private String label;
     private String img;
+
+    private String des;
+    private String property;
+    private String relation;
 
 
     @Override
@@ -31,6 +39,10 @@ public class ShowEntityActivity extends Activity{
         kg_back2list = findViewById(R.id.kg_back2list_view);
         entity_img = findViewById(R.id.entity_picture);
         entity_label = findViewById(R.id.entity_label);
+
+        entity_des = findViewById(R.id.entity_des);
+        entity_property = findViewById(R.id.entity_property);
+        entity_relation = findViewById(R.id.entity_relation);
 
         init_Listener();
         my_show();
@@ -50,7 +62,17 @@ public class ShowEntityActivity extends Activity{
         Intent intent = getIntent();
         label = intent.getStringExtra("label");
         img = intent.getStringExtra("img");
+
+        des = intent.getStringExtra("des");
+        property = intent.getStringExtra("property");
+        relation = intent.getStringExtra("relation");
+
+
         entity_label.setText(label);
+        entity_des.setText(des);
+        entity_property.setText(property);
+        entity_relation.setText(relation);
+
         new Thread(new Runnable(){
             @Override
             public void run(){

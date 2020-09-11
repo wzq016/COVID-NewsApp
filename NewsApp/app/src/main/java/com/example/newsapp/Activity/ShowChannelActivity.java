@@ -47,7 +47,7 @@ public class ShowChannelActivity extends AppCompatActivity {
     private void init() {
         Intent intent = getIntent();
         String[] myChannel = {};
-        String[] recommendChannel1 = {"全部", "news", "paper"};
+        String[] recommendChannel1 = {"全部", "news", "paper","传播","细胞","疫苗","冠状病毒", "结构"};
         String[] recommendChannel2 = {};
 
 
@@ -83,6 +83,15 @@ public class ShowChannelActivity extends AppCompatActivity {
             String categs = intent.getStringExtra("categs");
 
             for (String aMyChannel : recommendChannel1) {
+                Channel channel = new Channel(aMyChannel);
+                if(categs.contains(aMyChannel)) {
+                    recommendChannelList1.add(channel);
+                } else {
+                    recommendChannelList2.add(channel);
+                }
+            }
+
+            for (String aMyChannel : recommendChannel2) {
                 Channel channel = new Channel(aMyChannel);
                 if(categs.contains(aMyChannel)) {
                     recommendChannelList1.add(channel);

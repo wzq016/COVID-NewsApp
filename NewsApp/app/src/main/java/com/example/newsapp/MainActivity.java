@@ -35,25 +35,24 @@ public class MainActivity extends AppCompatActivity {
 //         Thread thread=new Thread(new Runnable() {
 //             @Override
 //             public void run() {
-//                 ClusterManager law2=new ClusterManager();
+//
+//                 NewsManager law2=new NewsManager();
+//                 ArrayList<CovidNews> n=law2.getNews();
+//                 for(CovidNews news:n)
+//                 {
+//                     System.out.println(news.getId());
+//                 }
 //             }
 //         });
 //         thread.start();
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_homepage, R.id.nav_search,R.id.nav_kg,R.id.nav_stat,R.id.nav_xuezhe)
+                R.id.nav_homepage, R.id.nav_search,R.id.nav_kg,R.id.nav_stat,R.id.nav_xuezhe,R.id.nav_history)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);

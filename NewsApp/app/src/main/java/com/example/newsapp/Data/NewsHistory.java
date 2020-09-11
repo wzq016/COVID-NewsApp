@@ -8,7 +8,7 @@ import org.litepal.crud.LitePalSupport;
 public class NewsHistory extends LitePalSupport
 {
     private String newsID;
-    NewsHistory(String newsID)
+    public NewsHistory(String newsID)
     {
         super();
         this.newsID=newsID;

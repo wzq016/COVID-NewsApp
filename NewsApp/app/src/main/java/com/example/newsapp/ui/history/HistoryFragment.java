@@ -36,8 +36,10 @@ public class HistoryFragment extends Fragment {
         newslist = new ArrayList<CovidNews>();
         historyManager = new HistoryManager();
         newslist.addAll(historyManager.getNewsHistory());
+        System.out.println("GetHistorylen"+newslist.size());
         newsAdapter = new NewsAdapter(getContext(), R.layout.one_news, newslist);
         listView.setAdapter(newsAdapter);
+        listView.setVisibility(View.VISIBLE);
     }
 
 

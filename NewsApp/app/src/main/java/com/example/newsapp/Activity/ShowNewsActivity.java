@@ -48,10 +48,10 @@ public class ShowNewsActivity extends Activity{
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String toshare = title +"\n" +body.substring(0,40);
                 Intent textIntent = new Intent(Intent.ACTION_SEND);
                 textIntent.setType("text/plain");
-                textIntent.putExtra(Intent.EXTRA_TEXT, toshare);
+                textIntent.putExtra(Intent.EXTRA_SUBJECT, title.substring(0,40) +"...");
+                textIntent.putExtra(Intent.EXTRA_TEXT,body.substring(0,100)+"...");
                 startActivity(Intent.createChooser(textIntent, "分享"));
             }
         });

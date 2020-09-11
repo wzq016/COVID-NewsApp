@@ -46,7 +46,17 @@ public class XuezheFragment extends Fragment {
             {
                 Intent intent = new Intent(getContext(), ShowExpertActivity.class);
                 intent.putExtra("name", ppl_list.get(i - listView.getHeaderViewsCount()).getName());
+                intent.putExtra("name_zh", ppl_list.get(i - listView.getHeaderViewsCount()).getNameZh());
                 intent.putExtra("img", ppl_list.get(i - listView.getHeaderViewsCount()).getAvatar());
+                intent.putExtra("bio", ppl_list.get(i - listView.getHeaderViewsCount()).getBiography());
+                intent.putExtra("work", ppl_list.get(i - listView.getHeaderViewsCount()).getWork());
+                intent.putExtra("affiliation", ppl_list.get(i - listView.getHeaderViewsCount()).getAffiliation());
+                intent.putExtra("position", ppl_list.get(i - listView.getHeaderViewsCount()).getPosition());
+                if(ppl_list.get(i - listView.getHeaderViewsCount()).getIsPassedAway())
+                    intent.putExtra("passed", "状态：离世");
+                else
+                    intent.putExtra("passed", "状态：在世");
+
                 startActivity(intent);
             }
         });

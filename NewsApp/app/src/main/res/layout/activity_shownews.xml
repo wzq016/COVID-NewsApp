@@ -6,7 +6,7 @@
     android:id="@+id/activity_shownews"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/back2list_layout"
@@ -20,14 +20,11 @@
 
         <ImageView
             android:id="@+id/share_news"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:src="@drawable/transmit"
-            android:layout_gravity="center_vertical"
-            android:layout_alignParentRight="true"
-            android:layout_margin="5dp"
-            android:layout_weight="1"/>
-    </LinearLayout>
+            android:layout_gravity="right"/>
+    </RelativeLayout>
 
     <ScrollView
         android:layout_width="match_parent"

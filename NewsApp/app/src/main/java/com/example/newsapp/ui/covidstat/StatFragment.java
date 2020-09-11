@@ -50,12 +50,14 @@ public class StatFragment extends Fragment {
         cn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 init_china(true);
             }
         });
         world.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 init_china(false);
             }
         });

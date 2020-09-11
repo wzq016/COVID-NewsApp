@@ -37,6 +37,11 @@ import com.example.newsapp.Thread.GetContentThread;
 import com.example.newsapp.Thread.SearchEntityThread;
 import com.example.newsapp.Thread.SearchThread;
 import com.example.newsapp.utils.StaticVar;
+import com.google.gson.JsonObject;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.*;
 
@@ -108,8 +113,55 @@ public class KGFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
             {
                 Intent intent = new Intent(getContext(), ShowEntityActivity.class);
-                intent.putExtra("label", ve_list.get(i - kg_listview_entity.getHeaderViewsCount()).getLable());
-                intent.putExtra("img", ve_list.get(i - kg_listview_entity.getHeaderViewsCount()).getImg());
+                VirusEntity ve = ve_list.get(i - kg_listview_entity.getHeaderViewsCount());
+                intent.putExtra("label", ve.getLable());
+                intent.putExtra("img", ve.getImg());
+                intent.putExtra("des", ve.getDescription());
+                JSONObject property = ve.getProperties();
+                String prop = "";
+                for (Iterator<String> it = property.keys(); it.hasNext(); ) {
+                    String key = it.next();
+                    String val = "";
+                    try {
+                        val = property.getString(key);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    prop  = prop + key +": "+val+"\n";
+
+                }
+                intent.putExtra("property", prop);
+
+                String rel_str = "关系网：\n";
+                JSONArray array = ve.getRelations();
+                for(int i_=0;i_<array.length();i_++){
+                    JSONObject obj = null;
+                    try {
+                        obj = array.getJSONObject(i_);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    String rel = "";
+                    String label = "";
+                    boolean forward = false;
+                    try {
+                        rel = obj.getString("relation");
+                        label = obj.getString("label");
+                        forward = obj.getBoolean("forward");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    String arrow;
+                    if(forward)
+                        arrow = "  -->  ";
+                    else
+                        arrow = "  <--  ";
+                    rel_str  = rel_str+rel+arrow+label+"\n";
+
+                }
+
+                intent.putExtra("relation", rel_str);
+
                 startActivity(intent);
             }
         });

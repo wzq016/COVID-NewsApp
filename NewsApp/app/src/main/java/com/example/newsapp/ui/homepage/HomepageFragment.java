@@ -2,6 +2,8 @@ package com.example.newsapp.ui.homepage;
 import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -24,8 +26,10 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.newsapp.Activity.ShowChannelActivity;
 import com.example.newsapp.Activity.ShowNewsActivity;
 import com.example.newsapp.Adapter.NewsAdapter;
+import com.example.newsapp.Data.ClusterManager;
 import com.example.newsapp.Data.CovidNews;
 import com.example.newsapp.Data.CovidNewsWithText;
+import com.example.newsapp.Data.EventCluster;
 import com.example.newsapp.Data.HistoryManager;
 import com.example.newsapp.Data.NewsManager;
 import com.example.newsapp.Data.SearchHistory;
@@ -60,9 +64,15 @@ public class HomepageFragment extends Fragment{
     private ArrayList<CovidNews> cl3_news;
     private ArrayList<CovidNews> cl4_news;
     private ArrayList<CovidNews> cl5_news;
+    private String keyword1;
+    private String keyword2;
+    private String keyword3;
+    private String keyword4;
+    private String keyword5;
     private String current_tab;
-    private ArrayList<CovidNews> current_news;
+    private List<CovidNews> current_news;
     private HistoryManager historyManager;
+    private int add_once = 300;
 //    private FmPagerAdapter pagerAdapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState)
@@ -77,6 +87,33 @@ public class HomepageFragment extends Fragment{
 
     private void init_tab(){
         categ_list = new ArrayList<>();
+
+        cl1_news = new ArrayList<>();
+        cl2_news = new ArrayList<>();
+        cl3_news = new ArrayList<>();
+        cl4_news = new ArrayList<>();
+        cl5_news = new ArrayList<>();
+
+        ClusterManager clusterManager = new ClusterManager();
+        ArrayList<EventCluster> clusters = clusterManager.getClusters();
+
+        cl1_news.addAll(clusters.get(0).getEvents());
+        cl2_news.addAll(clusters.get(1).getEvents());
+        cl3_news.addAll(clusters.get(2).getEvents());
+        cl4_news.addAll(clusters.get(3).getEvents());
+        cl5_news.addAll(clusters.get(4).getEvents());
+
+        keyword1 = clusters.get(0).getKeyword();
+        keyword2 = clusters.get(1).getKeyword();
+        keyword3 = clusters.get(2).getKeyword();
+        keyword4 = clusters.get(3).getKeyword();
+        keyword5 = clusters.get(4).getKeyword();
+//        System.out.println(keyword1);
+//        System.out.println(keyword2);
+//        System.out.println(keyword3);
+//        System.out.println(keyword4);
+//        System.out.println(keyword5);
+
         init_channel();
         tab_layout = view.findViewById(R.id.tab_layout);
         viewpager = view.findViewById(R.id.viewpager);
@@ -105,6 +142,8 @@ public class HomepageFragment extends Fragment{
             }
         });
 
+
+
     }
 
     private void init_channel(){
@@ -112,6 +151,11 @@ public class HomepageFragment extends Fragment{
             categ_list.add("全部");
             categ_list.add("news");
             categ_list.add("paper");
+            categ_list.add(keyword1);
+            categ_list.add(keyword2);
+            categ_list.add(keyword3);
+            categ_list.add(keyword4);
+            categ_list.add(keyword5);
         }else{
             String[] tab_strings = StaticVar.tab_strings.split(" ");
             for(String str:tab_strings){
@@ -128,16 +172,30 @@ public class HomepageFragment extends Fragment{
         all_news = new ArrayList<>();
         news_news = new ArrayList<>();
         paper_news = new ArrayList<>();
-        cl1_news = new ArrayList<>();
-        cl2_news = new ArrayList<>();
-        cl3_news = new ArrayList<>();
-        cl4_news = new ArrayList<>();
-        cl5_news = new ArrayList<>();
+//        cl1_news = new ArrayList<>();
+//        cl2_news = new ArrayList<>();
+//        cl3_news = new ArrayList<>();
+//        cl4_news = new ArrayList<>();
+//        cl5_news = new ArrayList<>();
 
         all_news.addAll(getNews());
         news_news.addAll(newsClassify("news"));
         paper_news.addAll(newsClassify("paper"));
 
+//        ClusterManager clusterManager = new ClusterManager();
+//        ArrayList<EventCluster> clusters = clusterManager.getClusters();
+//
+//        cl1_news.addAll(clusters.get(0).getEvents());
+//        cl2_news.addAll(clusters.get(1).getEvents());
+//        cl3_news.addAll(clusters.get(2).getEvents());
+//        cl4_news.addAll(clusters.get(3).getEvents());
+//        cl5_news.addAll(clusters.get(4).getEvents());
+//
+//        keyword1 = clusters.get(0).getKeyword();
+//        keyword2 = clusters.get(0).getKeyword();
+//        keyword3 = clusters.get(0).getKeyword();
+//        keyword4 = clusters.get(0).getKeyword();
+//        keyword5 = clusters.get(0).getKeyword();
 
         tab_layout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -150,11 +208,21 @@ public class HomepageFragment extends Fragment{
                     newslist = news_news;
                 } else if(type.equals("paper")){
                     newslist = paper_news;
-                } else {
+                } else if(type.equals(keyword1)){
+                    newslist = cl1_news;
+                } else if(type.equals(keyword2)){
+                    newslist = cl2_news;
+                } else if(type.equals(keyword3)){
+                    newslist = cl3_news;
+                } else if(type.equals(keyword4)){
+                    newslist = cl4_news;
+                } else if(type.equals(keyword5)){
+                    newslist = cl5_news;
+                }  else {
                     assert false;
                 }
 
-                current_news = newslist;
+                current_news = newslist.subList(0,add_once);
                 current_tab = type;
                 newsadapter = new NewsAdapter(getContext(), R.layout.one_news, newslist);
                 listview_news.setAdapter(newsadapter);
@@ -175,7 +243,7 @@ public class HomepageFragment extends Fragment{
 
 
         current_tab = "全部";
-        current_news = all_news;
+        current_news = all_news.subList(0,add_once);
         newslist = all_news;
 
         newsadapter = new NewsAdapter(getContext(), R.layout.one_news, current_news);
@@ -208,6 +276,7 @@ public class HomepageFragment extends Fragment{
                     @Override
                     public void run() {
                         historyManager.addToNewsHistory(new CovidNewsWithText(current_news.get(i - listview_news.getHeaderViewsCount())));
+                        System.out.println("Add to history!");
                     }
                 });
                 thread2.start();
@@ -260,29 +329,41 @@ public class HomepageFragment extends Fragment{
 
     private void init_pull(){
         RefreshLayout refreshLayout = (RefreshLayout)view.findViewById(R.id.refreshLayout);
+
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-                newslist.clear();
-                if(current_tab.equals("全部")){
-                    newslist.addAll(getNews());
-                } else if(current_tab.equals("news")){
-                    newslist.addAll(newsClassify("news"));
-                } else if(current_tab.equals("paper")){
-                    newslist.addAll(newsClassify("paper"));
-                } else{
-                    assert false;
+                if(!current_tab.equals(keyword1) &&
+                        !current_tab.equals(keyword2) &&
+                        !current_tab.equals(keyword3) &&
+                        !current_tab.equals(keyword4) &&
+                        !current_tab.equals(keyword5)){
+                    newslist.clear();
+                    if(current_tab.equals("全部")){
+                        newslist.addAll(getNews());
+                    } else if(current_tab.equals("news")){
+                        newslist.addAll(newsClassify("news"));
+                    } else if(current_tab.equals("paper")){
+                        newslist.addAll(newsClassify("paper"));
+                    } else{
+                        assert false;
+                    }
+                    current_news = newslist.subList(0,add_once);
+                    newsadapter = new NewsAdapter(getContext(), R.layout.one_news, current_news);
+                    listview_news.setAdapter(newsadapter);
+                    view.postInvalidate();
                 }
-                newsadapter = new NewsAdapter(getContext(), R.layout.one_news, newslist);
-                listview_news.setAdapter(newsadapter);
-                view.postInvalidate();
-                refreshlayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
+                refreshlayout.finishRefresh(true);//传入false表示刷新失败
             }
         });
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(RefreshLayout refreshlayout) {
-                refreshlayout.finishLoadMore(2000/*,false*/);//传入false表示加载失败
+//                newsadapter.addAll(newslist.subList(current_news.size(),current_news.size()+add_once));
+//                newsadapter.notifyDataSetChanged();
+
+                refreshlayout.finishLoadMore(true);
+
             }
         });
     }

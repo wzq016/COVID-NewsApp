@@ -19,7 +19,7 @@ public class NewsAdapter extends ArrayAdapter<CovidNews> {
     private int textViewResourceId;
     private SearchFragment search_parent;
     public View view;
-
+    List<CovidNews> objects;
 
     public NewsAdapter(Context context, int textViewResourceId, List<CovidNews> objects, SearchFragment parent) {
         super(context, textViewResourceId, objects);
@@ -30,6 +30,12 @@ public class NewsAdapter extends ArrayAdapter<CovidNews> {
     public NewsAdapter(Context context, int textViewResourceId, List<CovidNews> objects) {
         super(context, textViewResourceId, objects);
         this.textViewResourceId = textViewResourceId;
+        this.objects = objects;
+    }
+
+    public void add(List<CovidNews> in_objects){
+        int position = objects.size();
+        objects.addAll(position, in_objects);
     }
 
     @Override

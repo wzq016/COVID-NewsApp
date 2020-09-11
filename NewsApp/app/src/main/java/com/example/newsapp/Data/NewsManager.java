@@ -181,7 +181,7 @@ public class NewsManager
         返回前20条新闻
          */
         ArrayList<CovidNews> result=new ArrayList();
-        String url="https://covid-dashboard.aminer.cn/api/events/list?size=1000";
+        String url="https://covid-dashboard.aminer.cn/api/events/list?size=500";
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder().url(url).build();
         Response response = null;

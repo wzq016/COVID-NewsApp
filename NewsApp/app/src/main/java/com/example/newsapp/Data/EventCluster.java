@@ -37,7 +37,6 @@ public class EventCluster
         this.events=new ArrayList<>();
 
         File file = new File(filePath);
-        System.out.println(filePath);
         try{
             int cnt=1;
             InputStream is = StaticVar.law.getResources().getAssets().open(filePath);

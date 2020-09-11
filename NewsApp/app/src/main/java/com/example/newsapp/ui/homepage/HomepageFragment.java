@@ -221,8 +221,10 @@ public class HomepageFragment extends Fragment{
                 }  else {
                     assert false;
                 }
-
-                current_news = newslist.subList(0,add_once);
+                if(newslist.size()<add_once)
+                    current_news = newslist.subList(0,newslist.size());
+                else
+                    current_news = newslist.subList(0,add_once);
                 current_tab = type;
                 newsadapter = new NewsAdapter(getContext(), R.layout.one_news, newslist);
                 listview_news.setAdapter(newsadapter);
@@ -243,7 +245,10 @@ public class HomepageFragment extends Fragment{
 
 
         current_tab = "全部";
-        current_news = all_news.subList(0,add_once);
+        if(all_news.size()<add_once)
+            current_news = all_news.subList(0,all_news.size());
+        else
+            current_news = all_news.subList(0,add_once);
         newslist = all_news;
 
         newsadapter = new NewsAdapter(getContext(), R.layout.one_news, current_news);
@@ -350,7 +355,10 @@ public class HomepageFragment extends Fragment{
                     } else{
                         assert false;
                     }
-                    current_news = newslist.subList(0,add_once);
+                    if(newslist.size()<add_once)
+                        current_news = newslist.subList(0,newslist.size());
+                    else
+                        current_news = newslist.subList(0,add_once);
                     newsadapter = new NewsAdapter(getContext(), R.layout.one_news, current_news);
                     listview_news.setAdapter(newsadapter);
                     view.postInvalidate();

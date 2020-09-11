@@ -259,6 +259,8 @@ public class HomepageFragment extends Fragment{
 
                 intent.putExtra("source", current_news.get(i - listview_news.getHeaderViewsCount()).getSource());
 
+                current_news.get(i - listview_news.getHeaderViewsCount()).isTarsh = true;
+
                 GetContentThread content_thread = new GetContentThread(current_news.get(i - listview_news.getHeaderViewsCount()));
                 Thread thread = new Thread(content_thread);
                 thread.start();
@@ -286,7 +288,7 @@ public class HomepageFragment extends Fragment{
                 }catch (Exception e){
                     e.printStackTrace();
                 }
-
+                newsadapter.notifyDataSetChanged();
                 startActivity(intent);
             }
         });

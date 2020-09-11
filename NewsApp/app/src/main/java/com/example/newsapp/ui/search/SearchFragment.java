@@ -156,6 +156,8 @@ public class SearchFragment extends Fragment{
 
                 intent.putExtra("source", newslist.get(i - listview_news.getHeaderViewsCount()).getSource());
 
+                newslist.get(i - listview_news.getHeaderViewsCount()).isTarsh = true;
+
                 GetContentThread content_thread = new GetContentThread(newslist.get(i - listview_news.getHeaderViewsCount()));
                 Thread thread = new Thread(content_thread);
                 thread.start();
@@ -182,7 +184,7 @@ public class SearchFragment extends Fragment{
                 }catch (Exception e){
                     e.printStackTrace();
                 }
-
+                newsadapter.notifyDataSetChanged();
                 startActivity(intent);
             }
         });

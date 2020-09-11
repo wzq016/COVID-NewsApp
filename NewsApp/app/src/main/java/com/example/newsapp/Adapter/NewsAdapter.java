@@ -51,7 +51,9 @@ public class NewsAdapter extends ArrayAdapter<CovidNews> {
         }
 
         TextView one_news_title = view.findViewById(R.id.one_news_title);
-        one_news_title.setTextColor(Color.rgb(255, 255, 255));
+        if(news.isTarsh)
+            one_news_title.setTextColor(Color.rgb(128, 128, 128));
+
         TextView one_news_source = view.findViewById(R.id.one_news_source);
         TextView one_news_date = view.findViewById(R.id.one_news_date);
 

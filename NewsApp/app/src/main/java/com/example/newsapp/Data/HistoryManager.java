@@ -22,6 +22,8 @@ public class HistoryManager
     {
         String newsID=news.getId();
         List<NewsHistory> readHistories = LitePal.where("newsID = ?",newsID).find(NewsHistory.class);
+        List<NewsHistory> readHistories2 = LitePal.where().find(NewsHistory.class);
+        System.out.println("has "+readHistories2.size());
         if (readHistories.size()==0)
         {
             NewsHistory history=new NewsHistory(newsID,news.getTitle(),news.getDate(),news.getSeg_text(),news.getSource(),news.getContent());
@@ -95,5 +97,15 @@ public class HistoryManager
     {
         LitePal.deleteAll(SearchHistory.class);
     }
-
+    /*
+    返回看过新闻的id列表
+     */
+    public ArrayList<String> getIDhistory()
+    {
+        ArrayList<String> result=new ArrayList<>();
+        List<NewsHistory> readHistories = LitePal.findAll(NewsHistory.class);
+        for(NewsHistory news:readHistories)
+            result.add(news.getNewsID());
+        return result;
+    }
 }

@@ -10,9 +10,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -23,6 +25,7 @@ import com.example.newsapp.Activity.ShowNewsActivity;
 import com.example.newsapp.Adapter.NewsAdapter;
 import com.example.newsapp.Data.CovidNews;
 import com.example.newsapp.Data.CovidNewsWithText;
+import com.example.newsapp.Data.HistoryManager;
 import com.example.newsapp.Data.NewsManager;
 import com.example.newsapp.Data.SearchHistory;
 import com.example.newsapp.R;
@@ -40,11 +43,13 @@ public class SearchFragment extends Fragment{
     private ArrayList<CovidNews> newslist;
     private ListView listview_news;
     private NewsManager newsmanager;
+    private HistoryManager history_manager;
     private RelativeLayout history_layout;
     private NewsAdapter newsadapter;
     private EditText edittext;
     private ArrayList<History> history_list;
     private RecyclerView recyclerView;
+    private TextView del_all;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 
@@ -56,6 +61,7 @@ public class SearchFragment extends Fragment{
     }
 
     private void init_news(){
+        history_manager = new HistoryManager();
         listview_news = view.findViewById(R.id.listview_news);
         newslist = new ArrayList<CovidNews>();
         newsmanager = new NewsManager();
@@ -68,7 +74,7 @@ public class SearchFragment extends Fragment{
 
 
         history_list = new ArrayList<History>();
-        ArrayList<String> historys = newsmanager.getSearchHistory();
+        ArrayList<String> historys = history_manager.getSearchHistory();
         for(String content:historys)
             history_list.add(new History(content,R.drawable.delete));
 
@@ -101,6 +107,15 @@ public class SearchFragment extends Fragment{
             @Override
             public void afterTextChanged(Editable editable) {
 
+            }
+        });
+
+
+        del_all = view.findViewById(R.id.history_delete);
+        del_all.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                history_manager.deleteAllSearchHistory();
             }
         });
 
@@ -153,7 +168,7 @@ public class SearchFragment extends Fragment{
     }
 
     private void search(String content){
-        newsmanager.addToSearchHistory(new SearchHistory(content));
+        history_manager.addToSearchHistory(content);
 //        for(String str:newsmanager.getSearchHistory())
 //            System.out.println(str);
         newslist.clear();

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:id="@+id/kg_head_line">
+        <!--        android:background="	#F5F5F5">-->
+        <RelativeLayout
+            android:textColor="#999999"
+            android:textSize="14sp"
+            android:layout_marginTop="10dp"
+            android:id="@+id/kg_relative_layout"
+            android:layout_width="match_parent"
+            android:layout_height="45dp">
+
+            <Button
+                android:id="@+id/kg_search_btn"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:hint="搜索"/>
+            <EditText
+                android:id="@+id/kg_search_content"
+                android:hint="查询内容"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toLeftOf="@+id/kg_search_btn"/>
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/kg_listview_entity"/>
+</LinearLayout>

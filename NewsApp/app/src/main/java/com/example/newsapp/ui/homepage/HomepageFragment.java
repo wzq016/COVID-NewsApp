@@ -113,6 +113,34 @@ public class HomepageFragment extends Fragment{
         search("COVID");
         newsadapter = new NewsAdapter(getContext(), R.layout.one_news, newslist);
         listview_news.setAdapter(newsadapter);
+
+        listview_news.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
+            {
+                Intent intent = new Intent(getContext(), ShowNewsActivity.class);
+                intent.putExtra("title", newslist.get(i - listview_news.getHeaderViewsCount()).getTitle());
+                intent.putExtra("date", newslist.get(i - listview_news.getHeaderViewsCount()).getDate());
+
+                intent.putExtra("source", newslist.get(i - listview_news.getHeaderViewsCount()).getSource());
+
+                GetContentThread content_thread = new GetContentThread(newslist.get(i - listview_news.getHeaderViewsCount()));
+                Thread thread = new Thread(content_thread);
+                thread.start();
+
+                try{
+                    thread.join();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
+
+                intent.putExtra("body", content_thread.get_content());
+//                intent.putExtra("source_activity","search");
+
+                startActivity(intent);
+            }
+        });
     }
 
     private void search(String content){

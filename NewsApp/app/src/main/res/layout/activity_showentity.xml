@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/activity_entity"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/kg_back2list_layout"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:id="@+id/kg_back2list_view"
+            android:layout_gravity="left"
+            android:src="@drawable/back_arrow"/>
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="16"
+        android:id="@+id/kg_scroll_entity">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/entities_all">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/entity_label"
+                android:layout_margin="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="22dp"
+                android:textColor="@color/colorBlack"
+                android:textSize="25sp"/>
+
+            <ImageView
+                android:id="@+id/entity_picture"
+                android:layout_width="200dp"
+                android:layout_marginTop="5dp"
+                android:adjustViewBounds="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_height="wrap_content"/>
+
+<!--            <TextView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:id="@+id/news_source"-->
+<!--                android:layout_marginLeft="15dp"-->
+<!--                android:layout_marginRight="20dp" />-->
+
+<!--            <TextView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:id="@+id/news_date"-->
+<!--                android:layout_marginLeft="15dp"-->
+<!--                android:layout_marginRight="20dp"/>-->
+
+<!--            <TextView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:id="@+id/news_body"-->
+<!--                android:layout_marginLeft="15dp"-->
+<!--                android:layout_marginRight="20dp"/>-->
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

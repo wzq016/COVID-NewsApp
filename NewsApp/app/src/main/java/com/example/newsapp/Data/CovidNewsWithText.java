@@ -13,9 +13,10 @@ import java.util.ArrayList;
 /*
 查询后返回的新冠疫情新闻类，含正文等
  */
+
 public class CovidNewsWithText extends LitePalSupport
 {
-    private String id = "";
+    private String identity = "";
     private String type = "";
     private String title = "";
     private String category = "";
@@ -34,7 +35,7 @@ public class CovidNewsWithText extends LitePalSupport
     public CovidNewsWithText(CovidNews news)
     {
         super();
-        this.id = news.getId();
+        this.identity = news.getId();
         this.category = news.getCategory();
         this.type = news.getType();
         this.time = news.getTime();
@@ -71,7 +72,7 @@ public class CovidNewsWithText extends LitePalSupport
     }
     public String getId()
     {
-        return this.id;
+        return this.identity;
     }
     public String getType()
     {

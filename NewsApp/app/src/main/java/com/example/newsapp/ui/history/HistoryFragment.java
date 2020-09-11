@@ -38,6 +38,7 @@ public class HistoryFragment extends Fragment {
         newslist.addAll(historyManager.getNewsHistory());
         newsAdapter = new NewsAdapter(getContext(), R.layout.one_news, newslist);
         listView.setAdapter(newsAdapter);
+        listView.setVisibility(View.VISIBLE);
     }
 
 

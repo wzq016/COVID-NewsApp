@@ -106,4 +106,16 @@ public class HistoryManager
             result.add(news.getNewsID());
         return result;
     }
+    /*
+    对新闻列表进行标记，标记有哪些已经读过
+     */
+    public void tagNewsList(ArrayList<CovidNews> newsList)
+    {
+        ArrayList<String> ids=this.getIDhistory();
+        for(CovidNews news:newsList)
+        {
+            if(ids.contains(news.getId()))
+                news.isTarsh=true;
+        }
+    }
 }

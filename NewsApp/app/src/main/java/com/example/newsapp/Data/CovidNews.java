@@ -22,6 +22,7 @@ public class CovidNews
     private String date="";
     private String segText="";
     private double tfidfScore=0.0;
+    public boolean isTarsh=false;
 
     public CovidNews(String id,String type,String title,String category,String time,String lang,String source,String date,String segText)
     {

@@ -20,6 +20,8 @@ import java.lang.Math;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+
+import com.example.newsapp.ui.search.History;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.huaban.analysis.jieba.*;
@@ -202,7 +204,8 @@ public class NewsManager
         setScore(query,result);
         newsTfIdfComparator cmp=new newsTfIdfComparator();
         Collections.sort(result,cmp);
-        System.out.println(result.size());
+        HistoryManager m=new HistoryManager();
+        m.tagNewsList(result);
         return result;
     }
     public ArrayList<CovidNews> getNews()
@@ -229,6 +232,8 @@ public class NewsManager
             e.printStackTrace();
         }
         sortByDate(result);
+        HistoryManager m=new HistoryManager();
+        m.tagNewsList(result);
         return result;
     }
     /*
@@ -265,6 +270,8 @@ public class NewsManager
             e.printStackTrace();
         }
         sortByDate(result);
+        HistoryManager m=new HistoryManager();
+        m.tagNewsList(result);
         return result;
     }
     /*

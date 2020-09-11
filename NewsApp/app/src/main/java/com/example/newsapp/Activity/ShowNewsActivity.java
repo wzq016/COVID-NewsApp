@@ -20,6 +20,7 @@ public class ShowNewsActivity extends Activity{
     private String date;
     private String source;
     private String body;
+    private ImageView share;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -31,6 +32,7 @@ public class ShowNewsActivity extends Activity{
         news_body= findViewById(R.id.news_body);
         news_source = findViewById(R.id.news_source);
         back2list = findViewById(R.id.back2list_view);
+        share = findViewById(R.id.share_news);
         init_Listener();
         my_show();
     }
@@ -40,6 +42,16 @@ public class ShowNewsActivity extends Activity{
             @Override
             public void onClick(View view) {
                 finish();
+            }
+        });
+        share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String toshare = title +"\n" +body.substring(0,40);
+                Intent textIntent = new Intent(Intent.ACTION_SEND);
+                textIntent.setType("text/plain");
+                textIntent.putExtra(Intent.EXTRA_TEXT, toshare);
+                startActivity(Intent.createChooser(textIntent, "分享"));
             }
         });
     }

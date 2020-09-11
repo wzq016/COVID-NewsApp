@@ -17,6 +17,16 @@
             android:id="@+id/back2list_view"
             android:layout_gravity="left"
             android:src="@drawable/back_arrow"/>
+
+        <ImageView
+            android:id="@+id/share_news"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:src="@drawable/transmit"
+            android:layout_gravity="center_vertical"
+            android:layout_alignParentRight="true"
+            android:layout_margin="5dp"
+            android:layout_weight="1"/>
     </LinearLayout>
 
     <ScrollView

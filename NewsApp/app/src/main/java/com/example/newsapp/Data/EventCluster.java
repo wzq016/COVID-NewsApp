@@ -16,6 +16,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import com.example.newsapp.Activity.ShowExpertActivity;
+import com.example.newsapp.MainActivity;
+import com.example.newsapp.utils.StaticVar;
+
 /*
 用于描述event聚类的类
  */
@@ -26,25 +29,22 @@ public class EventCluster
     private ArrayList<CovidNews> events;
     private String filePath="";
 
-
     public EventCluster(int tag, String filePath)
     {
 
         this.tag=tag;
         this.filePath=filePath;
         this.events=new ArrayList<>();
-        /*
+
         File file = new File(filePath);
         System.out.println(filePath);
         try{
             int cnt=1;
-            System.out.println("aaaa");
-            InputStream is = getResources().getAssets().open(filePath);
+            InputStream is = StaticVar.law.getResources().getAssets().open(filePath);
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
             String s = null;
             while((s = br.readLine())!=null)
             {
-                System.out.println(s);
                 if(cnt==1)
                 {
                     this.keyword=s;
@@ -60,7 +60,7 @@ public class EventCluster
         {
             e.printStackTrace();
         }
-        */
+
 
     }
     /*

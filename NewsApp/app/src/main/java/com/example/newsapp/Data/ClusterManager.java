@@ -19,16 +19,6 @@ public class ClusterManager
             String filePath="enents_cluster_"+t.toString()+".jsonl";
             this.clusters.add(new EventCluster(i,filePath));
         }
-        for(EventCluster cluster:this.clusters)
-        {
-            System.out.println(cluster.getKeyword()+'\n');
-            for(CovidNews event:cluster.getEvents())
-            {
-                System.out.println(event.getId());
-                System.out.println(event.getTitle());
-            }
-            System.out.println("*********************");
-        }
     }
     public ArrayList<EventCluster> getClusters()
     {

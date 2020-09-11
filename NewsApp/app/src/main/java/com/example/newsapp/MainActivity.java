@@ -33,8 +33,13 @@ public class MainActivity extends AppCompatActivity {
 //         Thread thread=new Thread(new Runnable() {
 //             @Override
 //             public void run() {
-//                 ExpertManager law=new ExpertManager();
-//                 law.getExpertsOnline();
+//                 NewsManager law=new NewsManager();
+//                 ArrayList<CovidNews> wzq=law.newsClassify("paper");
+//                 System.out.println(wzq.size());
+//                 for(CovidNews news:wzq)
+//                 {
+//                     System.out.println(news.getType()+' '+news.getDate());
+//                 }
 //             }
 //         });
 //         thread.start();

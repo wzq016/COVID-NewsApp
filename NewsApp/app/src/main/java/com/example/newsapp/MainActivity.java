@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
 
+import com.example.newsapp.utils.StaticVar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -25,24 +26,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        StaticVar.law=this;
         MultiDex.install(this);
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-//         Thread thread=new Thread(new Runnable() {
-//             @Override
-//             public void run() {
-//                 NewsManager law=new NewsManager();
-//                 ArrayList<CovidNews> wzq=law.newsClassify("paper");
-//                 System.out.println(wzq.size());
-//                 for(CovidNews news:wzq)
-//                 {
-//                     System.out.println(news.getType()+' '+news.getDate());
-//                 }
-//             }
-//         });
-//         thread.start();
+         Thread thread=new Thread(new Runnable() {
+             @Override
+             public void run() {
+                 ClusterManager law2=new ClusterManager();
+             }
+         });
+         thread.start();
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

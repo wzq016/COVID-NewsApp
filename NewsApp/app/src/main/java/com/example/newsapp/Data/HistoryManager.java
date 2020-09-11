@@ -22,8 +22,6 @@ public class HistoryManager
     {
         String newsID=news.getId();
         List<NewsHistory> readHistories = LitePal.where("newsID = ?",newsID).find(NewsHistory.class);
-        List<NewsHistory> readHistories2 = LitePal.where().find(NewsHistory.class);
-        System.out.println("has "+readHistories2.size());
         if (readHistories.size()==0)
         {
             NewsHistory history=new NewsHistory(newsID,news.getTitle(),news.getDate(),news.getSeg_text(),news.getSource(),news.getContent());

@@ -76,61 +76,7 @@ public class NewsManager
     /*
     添加单个新闻到历史记录并离线保存
      */
-    public void addToNewsHistory(CovidNewsWithText news)
-    {
-        String newsID=news.getId();
-        List<NewsHistory> readHistories = LitePal.where("newsID = ?",newsID).find(NewsHistory.class);
-        if (readHistories.size()==0)
-        {
-            NewsHistory history=new NewsHistory(newsID);
-            history.save(); //保存历史记录
-            news.save(); //离线保存新闻
-        }
-        else
-        {
-            NewsHistory history=new NewsHistory(newsID);
-            history.updateAll("newsID= ? ",newsID);
-        }
-    }
-    /*
-    添加一条query到本地搜索记录
-     */
-    public void addToSearchHistory(SearchHistory searchHistory)
-    {
-        searchHistory.save();
-    }
-    /*
-    返回所有的搜索记录
-     */
-    public ArrayList<String> getSearchHistory()
-    {
-        List<SearchHistory> searchHistories = LitePal.where().find(SearchHistory.class);
-        ArrayList<String> result=new ArrayList<>();
-        for (SearchHistory history:searchHistories)
-        {
-            result.add(history.getQuery());
-        }
-        return result;
-    }
-    /*
-    展示历史记录
-     */
-    public ArrayList<CovidNews> showHistory()
-    {
-        ArrayList<NewsHistory> readHistories =new ArrayList<>();
-        List<NewsHistory> tmpList = LitePal.where().find(NewsHistory.class);
-        if(tmpList.size() > 0)
-        {
-            readHistories.addAll(tmpList);
-        }
-        ArrayList<CovidNews> news = new ArrayList<>();
-        for (NewsHistory history : readHistories)
-        {
-            CovidNewsWithText covidNews = LitePal.where("newsID = ?", history.getNewsID()).findFirst(CovidNewsWithText.class);
-            news.add(new CovidNews((covidNews)));
-        }
-        return news;
-    }
+
     /*
     解析新闻的函数，将json格式的新闻解析为CovidNews类
     verified
@@ -189,18 +135,20 @@ public class NewsManager
         ArrayList<String> splitList=new ArrayList<>();
         for (ArrayList<String> list:rawSplitList)
         {
-            splitList.add(list.get(0));
+            if(list.get(0)!=null)
+                splitList.add(list.get(0).toLowerCase());
         }
+
         /*
         计算每个keyword的idf
          */
-        HashMap<String,Double> idf=new HashMap<String,Double>();
+        HashMap<String,Double> idf=new HashMap<>();
         for (String keyword:splitList)
         {
             int count=0;
             for (CovidNews news:newsList)
             {
-                if(news.getSegText().contains(keyword))
+                if(news.getSegText().toLowerCase().contains(keyword))
                     count++;
             }
             double idfScore=Math.log((double)(1+newsList.size())/(double)(count+1));
@@ -212,11 +160,11 @@ public class NewsManager
         for (CovidNews news:newsList)
         {
             double tfidfScore=0.0;
-            String[] seg=news.getSegText().split(" ");
+            String[] seg=news.getSegText().toLowerCase().split(" ");
             List<String> segWords= Arrays.asList(seg);
             for (String keyword:splitList)
             {
-                double tf=((double)Collections.frequency(segWords,keyword)/(double)segWords.size());
+                double tf=((double)Collections.frequency(segWords,keyword.toLowerCase())/(double)segWords.size());
                 tfidfScore+=tf*idf.get(keyword);
             }
             news.setTfidfScore(tfidfScore);

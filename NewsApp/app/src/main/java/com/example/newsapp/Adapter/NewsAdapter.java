@@ -25,6 +25,7 @@ public class NewsAdapter extends ArrayAdapter<CovidNews> {
         super(context, textViewResourceId, objects);
         this.textViewResourceId = textViewResourceId;
         search_parent = parent;
+        this.objects = objects;
     }
 
     public NewsAdapter(Context context, int textViewResourceId, List<CovidNews> objects) {

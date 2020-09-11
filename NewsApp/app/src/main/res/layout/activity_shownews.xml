@@ -20,8 +20,9 @@
 
         <ImageView
             android:id="@+id/share_news"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="60dp"
             android:src="@drawable/transmit"/>
     </RelativeLayout>
 

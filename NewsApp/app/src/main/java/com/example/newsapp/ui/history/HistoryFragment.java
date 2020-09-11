@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 
 import androidx.fragment.app.Fragment;
@@ -28,12 +29,15 @@ public class HistoryFragment extends Fragment {
     private HistoryManager historyManager;
     private NewsAdapter newsAdapter;
     private NewsManager newsManager;
+    private Button btn_del_history;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         view = inflater.inflate(R.layout.fragment_history,container,false);
         listView = view.findViewById(R.id.history_listview);
         newsManager = new NewsManager();
+        btn_del_history = view.findViewById(R.id.btn_del_hitstory);
+
         init_listview();
 
         return view;
@@ -47,6 +51,15 @@ public class HistoryFragment extends Fragment {
         newsAdapter = new NewsAdapter(getContext(), R.layout.one_news, newslist);
         listView.setAdapter(newsAdapter);
         listView.setVisibility(View.VISIBLE);
+
+        btn_del_history.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                historyManager.deleteAllNewsHistory();
+                newslist.clear();
+                newsAdapter.notifyDataSetChanged();
+            }
+        });
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -34,6 +35,7 @@ public class ShowNewsActivity extends Activity{
         news_source = findViewById(R.id.news_source);
         back2list = findViewById(R.id.back2list_view);
         share = findViewById(R.id.share_news);
+
         init_Listener();
         my_show();
     }
@@ -50,11 +52,12 @@ public class ShowNewsActivity extends Activity{
             public void onClick(View view) {
                 Intent textIntent = new Intent(Intent.ACTION_SEND);
                 textIntent.setType("text/plain");
-                textIntent.putExtra(Intent.EXTRA_SUBJECT, title.substring(0,40) +"...");
-                textIntent.putExtra(Intent.EXTRA_TEXT,body.substring(0,100)+"...");
+                textIntent.putExtra(Intent.EXTRA_SUBJECT, title);
+                textIntent.putExtra(Intent.EXTRA_TEXT,body);
                 startActivity(Intent.createChooser(textIntent, "分享"));
             }
         });
+
     }
 
     private void my_show(){

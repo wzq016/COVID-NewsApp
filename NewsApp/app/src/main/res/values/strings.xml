@@ -16,6 +16,7 @@
     <string name="menu_stat">疫情统计</string>
     <string name="menu_xuezhe">学者</string>
     <string name="menu_history">浏览历史</string>
+    <string name="btn_del">删除全部</string>
 
     <string name="china">中国</string>
     <string name="world">世界</string>

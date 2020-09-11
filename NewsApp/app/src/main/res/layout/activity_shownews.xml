@@ -51,6 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/news_source"
+            android:textColor="@color/color_supper_normal"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="20dp" />
 
@@ -59,6 +60,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/news_date"
             android:layout_marginLeft="15dp"
+            android:textColor="@color/color_orange"
             android:layout_marginRight="20dp"/>
 
         <TextView

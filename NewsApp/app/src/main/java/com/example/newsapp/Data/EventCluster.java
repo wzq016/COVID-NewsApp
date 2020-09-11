@@ -117,6 +117,8 @@ public class EventCluster
     }
     public ArrayList<CovidNews> getEvents()
     {
+        HistoryManager m=new HistoryManager();
+        m.tagNewsList(this.events);
         return this.events;
     }
 }

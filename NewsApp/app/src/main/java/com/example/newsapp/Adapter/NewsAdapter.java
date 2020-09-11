@@ -2,6 +2,7 @@ package com.example.newsapp.Adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +51,7 @@ public class NewsAdapter extends ArrayAdapter<CovidNews> {
         }
 
         TextView one_news_title = view.findViewById(R.id.one_news_title);
+        one_news_title.setTextColor(Color.rgb(255, 255, 255));
         TextView one_news_source = view.findViewById(R.id.one_news_source);
         TextView one_news_date = view.findViewById(R.id.one_news_date);
 

@@ -30,14 +30,19 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        // Thread thread=new Thread(new Runnable() {
-        //     @Override
-        //     public void run() {
-        //         NewsManager law=new NewsManager();
-        //         law.searchByQuery("孩子上了幼儿园,安全防拐教育要做好");
-        //     }
-        // });
-        // thread.start();
+//         Thread thread=new Thread(new Runnable() {
+//             @Override
+//             public void run() {
+//                 NewsManager law=new NewsManager();
+//                 ArrayList<CovidNews> wzq=law.newsClassify("paper");
+//                 System.out.println(wzq.size());
+//                 for(CovidNews news:wzq)
+//                 {
+//                     System.out.println(news.getType()+' '+news.getDate());
+//                 }
+//             }
+//         });
+//         thread.start();
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

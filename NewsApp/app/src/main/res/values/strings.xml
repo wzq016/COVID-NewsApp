@@ -13,4 +13,9 @@
     <string name="menu_search">搜索</string>
     <string name="menu_homepage">主页</string>
     <string name="menu_KG">疫情图谱</string>
+    <string name="menu_stat">疫情统计</string>
+    <string name="menu_xuezhe">学者</string>
+
+    <string name="china">中国</string>
+    <string name="world">世界</string>
 </resources>

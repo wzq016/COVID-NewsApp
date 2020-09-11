@@ -36,8 +36,20 @@
         tools:layout="@layout/fragment_search" />
 
     <fragment
+        android:id="@+id/nav_stat"
+        android:name="com.example.newsapp.ui.covidstat.StatFragment"
+        android:label="@string/menu_stat"
+        tools:layout="@layout/fragment_stat" />
+
+    <fragment
         android:id="@+id/nav_kg"
         android:name="com.example.newsapp.ui.kg.KGFragment"
         android:label="@string/menu_KG"
         tools:layout="@layout/fragment_kg" />
+
+    <fragment
+        android:id="@+id/nav_xuezhe"
+        android:name="com.example.newsapp.ui.xuezhe.XuezheFragment"
+        android:label="@string/menu_xuezhe"
+        tools:layout="@layout/fragment_xuezhe" />
 </navigation>

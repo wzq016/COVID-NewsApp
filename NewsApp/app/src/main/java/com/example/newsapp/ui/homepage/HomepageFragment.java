@@ -162,6 +162,9 @@ public class HomepageFragment extends Fragment{
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
                 search("libya");
+                newsadapter = new NewsAdapter(getContext(), R.layout.one_news, newslist);
+                listview_news.setAdapter(newsadapter);
+                view.postInvalidate();
                 refreshlayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
             }
         });

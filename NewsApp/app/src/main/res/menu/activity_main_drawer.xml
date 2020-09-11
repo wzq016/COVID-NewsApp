@@ -25,7 +25,14 @@
             android:title="@string/menu_search" />
 
         <item
+            android:id="@+id/nav_stat"
+            android:title="@string/menu_stat" />
+
+        <item
             android:id="@+id/nav_kg"
             android:title="@string/menu_KG" />
+        <item
+            android:id="@+id/nav_xuezhe"
+            android:title="@string/menu_xuezhe" />
     </group>
 </menu>

@@ -50,10 +50,11 @@ public class CovidNews
     public CovidNews(NewsHistory news)
     {
         this.id=news.getNewsID();
-        this.date=news.date2;
-        this.segText=news.seg_text;
-        this.source=news.source;
-        this.title=news.title;
+        this.date=news.getDate2();
+        this.segText=news.getSeg_text();
+        this.source=news.getSource();
+        this.title=news.getTitle();
+        
     }
     public CovidNews(CovidNewsWithText news)
     {

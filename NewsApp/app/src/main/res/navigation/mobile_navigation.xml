@@ -52,4 +52,10 @@
         android:name="com.example.newsapp.ui.xuezhe.XuezheFragment"
         android:label="@string/menu_xuezhe"
         tools:layout="@layout/fragment_xuezhe" />
+
+    <fragment
+        android:id="@+id/nav_history"
+        android:name="com.example.newsapp.ui.history.HistoryFragment"
+        android:label="@string/menu_history"
+        tools:layout="@layout/fragment_history" />
 </navigation>

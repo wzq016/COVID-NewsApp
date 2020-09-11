@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.newsapp.Data.HistoryManager;
 import com.example.newsapp.R;
 
 public class ShowNewsActivity extends Activity{

@@ -169,6 +169,19 @@ public class SearchFragment extends Fragment{
 
                 intent.putExtra("body", content_thread.get_content());
 //                intent.putExtra("source_activity","search");
+                Thread thread2 = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        history_manager.addToNewsHistory(new CovidNewsWithText(newslist.get(i - listview_news.getHeaderViewsCount())));
+                    }
+                });
+                thread2.start();
+
+                try{
+                    thread2.join();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
 
                 startActivity(intent);
             }

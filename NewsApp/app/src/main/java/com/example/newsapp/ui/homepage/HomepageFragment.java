@@ -26,6 +26,7 @@ import com.example.newsapp.Activity.ShowNewsActivity;
 import com.example.newsapp.Adapter.NewsAdapter;
 import com.example.newsapp.Data.CovidNews;
 import com.example.newsapp.Data.CovidNewsWithText;
+import com.example.newsapp.Data.HistoryManager;
 import com.example.newsapp.Data.NewsManager;
 import com.example.newsapp.Data.SearchHistory;
 import com.example.newsapp.R;
@@ -61,11 +62,13 @@ public class HomepageFragment extends Fragment{
     private ArrayList<CovidNews> cl5_news;
     private String current_tab;
     private ArrayList<CovidNews> current_news;
+    private HistoryManager historyManager;
 //    private FmPagerAdapter pagerAdapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState)
     {
         view = inflater.inflate(R.layout.fragment_homepage,container,false);
+        historyManager = new HistoryManager();
         init_tab();
         init_listview();
         init_pull();
@@ -199,6 +202,19 @@ public class HomepageFragment extends Fragment{
 
                 intent.putExtra("body", content_thread.get_content());
 //                intent.putExtra("source_activity","search");
+                Thread thread2 = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        historyManager.addToNewsHistory(new CovidNewsWithText(newslist.get(i - listview_news.getHeaderViewsCount())));
+                    }
+                });
+                thread2.start();
+
+                try{
+                    thread2.join();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
 
                 startActivity(intent);
             }

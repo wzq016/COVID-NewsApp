@@ -154,6 +154,7 @@ public class HomepageFragment extends Fragment{
                     assert false;
                 }
 
+                current_news = newslist;
                 current_tab = type;
                 newsadapter = new NewsAdapter(getContext(), R.layout.one_news, newslist);
                 listview_news.setAdapter(newsadapter);
@@ -175,6 +176,7 @@ public class HomepageFragment extends Fragment{
 
         current_tab = "全部";
         current_news = all_news;
+        newslist = all_news;
 
         newsadapter = new NewsAdapter(getContext(), R.layout.one_news, current_news);
         listview_news.setAdapter(newsadapter);
@@ -184,12 +186,12 @@ public class HomepageFragment extends Fragment{
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
             {
                 Intent intent = new Intent(getContext(), ShowNewsActivity.class);
-                intent.putExtra("title", newslist.get(i - listview_news.getHeaderViewsCount()).getTitle());
-                intent.putExtra("date", newslist.get(i - listview_news.getHeaderViewsCount()).getDate());
+                intent.putExtra("title", current_news.get(i - listview_news.getHeaderViewsCount()).getTitle());
+                intent.putExtra("date", current_news.get(i - listview_news.getHeaderViewsCount()).getDate());
 
-                intent.putExtra("source", newslist.get(i - listview_news.getHeaderViewsCount()).getSource());
+                intent.putExtra("source", current_news.get(i - listview_news.getHeaderViewsCount()).getSource());
 
-                GetContentThread content_thread = new GetContentThread(newslist.get(i - listview_news.getHeaderViewsCount()));
+                GetContentThread content_thread = new GetContentThread(current_news.get(i - listview_news.getHeaderViewsCount()));
                 Thread thread = new Thread(content_thread);
                 thread.start();
 
@@ -205,7 +207,7 @@ public class HomepageFragment extends Fragment{
                 Thread thread2 = new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        historyManager.addToNewsHistory(new CovidNewsWithText(newslist.get(i - listview_news.getHeaderViewsCount())));
+                        historyManager.addToNewsHistory(new CovidNewsWithText(current_news.get(i - listview_news.getHeaderViewsCount())));
                     }
                 });
                 thread2.start();
@@ -219,18 +221,6 @@ public class HomepageFragment extends Fragment{
                 startActivity(intent);
             }
         });
-    }
-
-    private void search(String content){
-        newslist.clear();
-        SearchThread searchthread = new SearchThread(content,newsmanager,newslist);
-        Thread thread = new Thread(searchthread);
-        thread.start();
-        try{
-            thread.join();
-        }catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     private ArrayList<CovidNews> getNews(){

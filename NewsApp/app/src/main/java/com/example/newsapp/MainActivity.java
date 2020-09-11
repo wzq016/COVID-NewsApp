@@ -32,18 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-//         Thread thread=new Thread(new Runnable() {
-//             @Override
-//             public void run() {
-//                NewsManager law2=new NewsManager();
-//                ArrayList<CovidNews> wzq=law2.getNews();
-//                for(CovidNews news:wzq)
-//                {
-//                    System.out.println(news.getId());
-//                }
-//             }
-//         });
-//         thread.start();
+
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

@@ -72,7 +72,7 @@ public class HomepageFragment extends Fragment{
     private String current_tab;
     private List<CovidNews> current_news;
     private HistoryManager historyManager;
-    private int add_once = 300;
+    private int add_once = 14;
 //    private FmPagerAdapter pagerAdapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState)
@@ -359,8 +359,11 @@ public class HomepageFragment extends Fragment{
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(RefreshLayout refreshlayout) {
-//                newsadapter.addAll(newslist.subList(current_news.size(),current_news.size()+add_once));
-//                newsadapter.notifyDataSetChanged();
+                int max_size = current_news.size()+add_once;
+                if(max_size>newslist.size())
+                    max_size = newslist.size();
+                newsadapter.addAll(newslist.subList(current_news.size(),max_size));
+                newsadapter.notifyDataSetChanged();
 
                 refreshlayout.finishLoadMore(true);
 

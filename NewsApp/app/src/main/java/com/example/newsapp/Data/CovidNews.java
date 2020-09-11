@@ -54,7 +54,7 @@ public class CovidNews
         this.segText=news.getSeg_text();
         this.source=news.getSource();
         this.title=news.getTitle();
-        
+
     }
     public CovidNews(CovidNewsWithText news)
     {

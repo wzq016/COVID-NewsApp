@@ -95,5 +95,15 @@ public class HistoryManager
     {
         LitePal.deleteAll(SearchHistory.class);
     }
-
+    /*
+    返回看过新闻的id列表
+     */
+    public ArrayList<String> getIDhistory()
+    {
+        ArrayList<String> result=new ArrayList<>();
+        List<NewsHistory> readHistories = LitePal.findAll(NewsHistory.class);
+        for(NewsHistory news:readHistories)
+            result.add(news.getNewsID());
+        return result;
+    }
 }

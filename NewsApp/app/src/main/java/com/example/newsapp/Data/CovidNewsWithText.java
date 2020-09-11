@@ -73,10 +73,11 @@ public class CovidNewsWithText extends LitePalSupport
     public CovidNewsWithText(NewsHistory news)
     {
         this.identity=news.getNewsID();
-        this.date=news.date2;
-        this.title=news.title;
-        this.seg_text=news.seg_text;
-        this.source=news.source;
+        this.date=news.getDate2();
+        this.title=news.getTitle();
+        this.seg_text=news.getSeg_text();
+        this.source=news.getSource();
+        this.content=news.getContent();
     }
     public String getId()
     {

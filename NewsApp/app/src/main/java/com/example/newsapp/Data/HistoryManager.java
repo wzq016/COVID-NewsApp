@@ -24,7 +24,7 @@ public class HistoryManager
         List<NewsHistory> readHistories = LitePal.where("newsID = ?",newsID).find(NewsHistory.class);
         if (readHistories.size()==0)
         {
-            NewsHistory history=new NewsHistory(newsID,news.getTitle(),news.getDate(),news.getSeg_text(),news.getSource());
+            NewsHistory history=new NewsHistory(newsID,news.getTitle(),news.getDate(),news.getSeg_text(),news.getSource(),news.getContent());
             history.save(); //保存历史记录
         }
     }

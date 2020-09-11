@@ -285,10 +285,11 @@ public class NewsManager
         Collections.sort(newsList,cmp);
     }
     /*
-    排序函数，对新闻List按照PageRank算法排序
+    离线返回新闻信息，根据离线的NewsHistory返回新闻正文
      */
-    public void sortByPagerank(ArrayList<CovidNews> newsList)
+    public CovidNewsWithText getOfflineNews(CovidNews news)
     {
-
+        NewsHistory his=LitePal.where("newsID = ?",news.getId()).findFirst(NewsHistory.class);
+        return new CovidNewsWithText(his);
     }
 }

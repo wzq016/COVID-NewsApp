@@ -70,6 +70,14 @@ public class CovidNewsWithText extends LitePalSupport
         }
 
     }
+    public CovidNewsWithText(NewsHistory news)
+    {
+        this.identity=news.getNewsID();
+        this.date=news.date2;
+        this.title=news.title;
+        this.seg_text=news.seg_text;
+        this.source=news.source;
+    }
     public String getId()
     {
         return this.identity;

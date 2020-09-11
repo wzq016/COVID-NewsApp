@@ -17,12 +17,12 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     private List<History> history_list;
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView History_delete;
+//        ImageView History_delete;
         TextView History_content;
 
         public ViewHolder(View view) {
             super(view);
-            History_delete = (ImageView) view.findViewById(R.id.history_delete);
+//            History_delete = (ImageView) view.findViewById(R.id.history_delete);
             History_content = (TextView) view.findViewById(R.id.history_content);
         }
 
@@ -43,7 +43,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     public void onBindViewHolder(ViewHolder holder, int position) {
 
         History history = history_list.get(position);
-        holder.History_delete.setImageResource(history.getImageId());
+//        holder.History_delete.setImageResource(history.getImageId());
         holder.History_content.setText(history.getName());
     }
 

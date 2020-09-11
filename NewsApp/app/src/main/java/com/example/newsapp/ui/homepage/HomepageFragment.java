@@ -16,7 +16,9 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.newsapp.Activity.ShowChannelActivity;
@@ -49,6 +51,16 @@ public class HomepageFragment extends Fragment{
     private ArrayList<CovidNews> newslist;
     private NewsManager newsmanager;
     private NewsAdapter newsadapter;
+    private ArrayList<CovidNews> all_news;
+    private ArrayList<CovidNews> news_news;
+    private ArrayList<CovidNews> paper_news;
+    private ArrayList<CovidNews> cl1_news;
+    private ArrayList<CovidNews> cl2_news;
+    private ArrayList<CovidNews> cl3_news;
+    private ArrayList<CovidNews> cl4_news;
+    private ArrayList<CovidNews> cl5_news;
+    private String current_tab;
+    private ArrayList<CovidNews> current_news;
 //    private FmPagerAdapter pagerAdapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState)
@@ -67,15 +79,14 @@ public class HomepageFragment extends Fragment{
         viewpager = view.findViewById(R.id.viewpager);
 
         for(String str:categ_list){
-//            fragments.add(new TabFragment());
             TabLayout.Tab tab = tab_layout.newTab();
             tab.setText(str);
             tab_layout.addTab(tab);
         }
 
+
         tab_layout.setupWithViewPager(viewpager,false);
-//        pagerAdapter = new FmPagerAdapter(fragments,getSupportFragmentManager());
-//        viewPager.setAdapter(pagerAdapter);
+
 
         btn_showchannel = view.findViewById(R.id.btn_showchannel);
         btn_showchannel.setOnClickListener(new View.OnClickListener() {
@@ -110,8 +121,59 @@ public class HomepageFragment extends Fragment{
         listview_news = view.findViewById(R.id.news_listview_smart);
         newslist = new ArrayList<CovidNews>();
         newsmanager = new NewsManager();
-        search("COVID");
-        newsadapter = new NewsAdapter(getContext(), R.layout.one_news, newslist);
+
+        all_news = new ArrayList<>();
+        news_news = new ArrayList<>();
+        paper_news = new ArrayList<>();
+        cl1_news = new ArrayList<>();
+        cl2_news = new ArrayList<>();
+        cl3_news = new ArrayList<>();
+        cl4_news = new ArrayList<>();
+        cl5_news = new ArrayList<>();
+
+        all_news.addAll(getNews());
+        news_news.addAll(newsClassify("news"));
+        paper_news.addAll(newsClassify("paper"));
+
+
+        tab_layout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                String type = (String) tab.getText();
+
+                if(type.equals("全部")){
+                    newslist = all_news;
+                } else if(type.equals("news")){
+                    newslist = news_news;
+                } else if(type.equals("paper")){
+                    newslist = paper_news;
+                } else {
+                    assert false;
+                }
+
+                current_tab = type;
+                newsadapter = new NewsAdapter(getContext(), R.layout.one_news, newslist);
+                listview_news.setAdapter(newsadapter);
+                view.postInvalidate();
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+
+        current_tab = "全部";
+        current_news = all_news;
+
+        newsadapter = new NewsAdapter(getContext(), R.layout.one_news, current_news);
         listview_news.setAdapter(newsadapter);
 
         listview_news.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -155,13 +217,56 @@ public class HomepageFragment extends Fragment{
         }
     }
 
+    private ArrayList<CovidNews> getNews(){
+        ArrayList<CovidNews> a = new ArrayList<>();
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                a.addAll(newsmanager.getNews());
+            }
+        });
+        thread.start();
+        try{
+            thread.join();
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return a;
+    }
+
+    private ArrayList<CovidNews> newsClassify(String type){
+        ArrayList<CovidNews> a = new ArrayList<>();
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                a.addAll(newsmanager.newsClassify(type));
+            }
+        });
+        thread.start();
+        try{
+            thread.join();
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return a;
+    }
+
 
     private void init_pull(){
         RefreshLayout refreshLayout = (RefreshLayout)view.findViewById(R.id.refreshLayout);
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-                search("libya");
+                newslist.clear();
+                if(current_tab.equals("全部")){
+                    newslist.addAll(getNews());
+                } else if(current_tab.equals("news")){
+                    newslist.addAll(newsClassify("news"));
+                } else if(current_tab.equals("paper")){
+                    newslist.addAll(newsClassify("paper"));
+                } else{
+                    assert false;
+                }
                 newsadapter = new NewsAdapter(getContext(), R.layout.one_news, newslist);
                 listview_news.setAdapter(newsadapter);
                 view.postInvalidate();

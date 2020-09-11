@@ -101,6 +101,8 @@ public class SearchFragment extends Fragment{
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 history_layout.setVisibility(View.VISIBLE);
                 listview_news.setVisibility(View.GONE);
+                HistoryAdapter adapter = new HistoryAdapter(history_list);
+                recyclerView.setAdapter(adapter);
                 recyclerView.setVisibility(View.VISIBLE);
             }
 
@@ -116,6 +118,10 @@ public class SearchFragment extends Fragment{
             @Override
             public void onClick(View view) {
                 history_manager.deleteAllSearchHistory();
+                history_list.clear();
+                HistoryAdapter adapter = new HistoryAdapter(history_list);
+                recyclerView.setAdapter(adapter);
+                recyclerView.setVisibility(View.VISIBLE);
             }
         });
 
@@ -127,6 +133,8 @@ public class SearchFragment extends Fragment{
                 String searchContent = search_content.getText().toString().trim();
                 if (searchContent.length() != 0){
                     search(searchContent);
+                    newsadapter = new NewsAdapter(getContext(), R.layout.one_news, newslist);
+                    listview_news.setAdapter(newsadapter);
                     listview_news.setVisibility(View.VISIBLE);
                     history_layout.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.GONE);
@@ -169,6 +177,7 @@ public class SearchFragment extends Fragment{
 
     private void search(String content){
         history_manager.addToSearchHistory(content);
+        history_list.add(new History(content,R.drawable.delete));
 //        for(String str:newsmanager.getSearchHistory())
 //            System.out.println(str);
         newslist.clear();

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
 
+import com.example.newsapp.ui.search.History;
 import com.example.newsapp.utils.StaticVar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -18,7 +19,11 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import com.example.newsapp.Data.*;
+
+import org.litepal.LitePal;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,19 +37,6 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-//         Thread thread=new Thread(new Runnable() {
-//             @Override
-//             public void run() {
-//
-//                 NewsManager law2=new NewsManager();
-//                 ArrayList<CovidNews> n=law2.getNews();
-//                 for(CovidNews news:n)
-//                 {
-//                     System.out.println(news.getId());
-//                 }
-//             }
-//         });
-//         thread.start();
 
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

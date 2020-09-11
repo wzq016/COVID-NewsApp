@@ -24,14 +24,8 @@ public class HistoryManager
         List<NewsHistory> readHistories = LitePal.where("newsID = ?",newsID).find(NewsHistory.class);
         if (readHistories.size()==0)
         {
-            NewsHistory history=new NewsHistory(newsID);
+            NewsHistory history=new NewsHistory(newsID,news.getTitle(),news.getDate(),news.getSeg_text(),news.getSource());
             history.save(); //保存历史记录
-            news.save(); //离线保存新闻
-        }
-        else
-        {
-            NewsHistory history=new NewsHistory(newsID);
-            history.updateAll("newsID= ? ",newsID);
         }
     }
     /*
@@ -39,14 +33,13 @@ public class HistoryManager
      */
     public ArrayList<CovidNews> getNewsHistory()
     {
-        List<CovidNewsWithText> searchHistories = LitePal.where().find(CovidNewsWithText.class);
         ArrayList<CovidNews> result=new ArrayList<>();
-        for (CovidNewsWithText news:searchHistories)
-        {
+        List<NewsHistory> readHistories = LitePal.findAll(NewsHistory.class);
+        for(NewsHistory news:readHistories)
             result.add(new CovidNews(news));
-        }
         return result;
     }
+
     /*
     删除单条浏览记录
      */

@@ -47,6 +47,14 @@ public class CovidNews
             e.printStackTrace();
         }
     }
+    public CovidNews(NewsHistory news)
+    {
+        this.id=news.getNewsID();
+        this.date=news.date2;
+        this.segText=news.seg_text;
+        this.source=news.source;
+        this.title=news.title;
+    }
     public CovidNews(CovidNewsWithText news)
     {
         this.id=news.getId();
@@ -56,6 +64,20 @@ public class CovidNews
         this.time=news.getTime();
         this.lang=news.getLang();
         this.url=news.getUrl();
+        this.source=news.getSource();
+        this.segText=news.getSeg_text();
+        this.date=news.getDate();
+        try
+        {
+            SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US);
+            Date s=sdf.parse(this.date);
+            sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.US);
+            this.date=sdf.format(s).toString();
+        }
+        catch (ParseException e)
+        {
+            e.printStackTrace();
+        }
     }
     /*
     override排序接口

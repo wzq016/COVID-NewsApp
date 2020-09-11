@@ -32,13 +32,13 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-         Thread thread=new Thread(new Runnable() {
-             @Override
-             public void run() {
-                 ClusterManager law2=new ClusterManager();
-             }
-         });
-         thread.start();
+//         Thread thread=new Thread(new Runnable() {
+//             @Override
+//             public void run() {
+//                 ClusterManager law2=new ClusterManager();
+//             }
+//         });
+//         thread.start();
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

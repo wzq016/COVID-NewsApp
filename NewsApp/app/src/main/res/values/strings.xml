@@ -1,13 +1,23 @@
 <resources>
-    <string name="app_name">COVID-News</string>
+    <string name="app_name">COVID-19新闻</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_title">Ziqi Wang</string>
+    <string name="nav_header_subtitle">ziqi-wan16@mails.tsinghua.edu.cn</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_search">搜索</string>
+    <string name="menu_homepage">主页</string>
+    <string name="menu_KG">疫情图谱</string>
+    <string name="menu_stat">疫情统计</string>
+    <string name="menu_xuezhe">学者</string>
+    <string name="menu_history">浏览历史</string>
+    <string name="btn_del">删除全部</string>
+
+    <string name="china">中国</string>
+    <string name="world">世界</string>
 </resources>

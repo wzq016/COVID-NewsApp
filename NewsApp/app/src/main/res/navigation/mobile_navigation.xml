@@ -3,23 +3,42 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_homepage">
+
 
     <fragment
-        android:id="@+id/nav_home"
-        android:name="com.example.newsapp.ui.home.HomeFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/nav_homepage"
+        android:name="com.example.newsapp.ui.homepage.HomepageFragment"
+        android:label="@string/menu_homepage"
+        tools:layout="@layout/fragment_homepage" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.example.newsapp.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:id="@+id/nav_search"
+        android:name="com.example.newsapp.ui.search.SearchFragment"
+        android:label="@string/menu_search"
+        tools:layout="@layout/fragment_search" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.example.newsapp.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_stat"
+        android:name="com.example.newsapp.ui.covidstat.StatFragment"
+        android:label="@string/menu_stat"
+        tools:layout="@layout/fragment_stat" />
+
+    <fragment
+        android:id="@+id/nav_kg"
+        android:name="com.example.newsapp.ui.kg.KGFragment"
+        android:label="@string/menu_KG"
+        tools:layout="@layout/fragment_kg" />
+
+    <fragment
+        android:id="@+id/nav_xuezhe"
+        android:name="com.example.newsapp.ui.xuezhe.XuezheFragment"
+        android:label="@string/menu_xuezhe"
+        tools:layout="@layout/fragment_xuezhe" />
+
+    <fragment
+        android:id="@+id/nav_history"
+        android:name="com.example.newsapp.ui.history.HistoryFragment"
+        android:label="@string/menu_history"
+        tools:layout="@layout/fragment_history" />
 </navigation>

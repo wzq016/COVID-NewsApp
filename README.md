@@ -16,21 +16,21 @@ Like usual NewsApp, this App has several common functions:
 
 - Share news
 
-<img src="./figs/newslist.png" style="zoom:50%;" /><img src="./figs/newsdetail.png" style="zoom:50%;" />
+<img src="./figs/newslist.png" width="150" height="300" /><img src="./figs/newsdetail.png" width="150" height="300" />
 
 There are also some special features for COVID-19:
 
 - Statistical histogram of COVID-19(i.e. number of infecte, death, and cured people in different areas)
 
-<img src="./figs/Stats.png" style="zoom:50%;" />
+<img src="./figs/Stats.png" width="150" height="300" />
 
 - Encyclopedia and knowledge graphs of COVID-19 related knowledge such as "Virus"
 
-<img src="./figs/kgsearch.png" style="zoom:50%;" /><img src="./figs/kgdetail.png" style="zoom:50%;" />
+<img src="./figs/kgsearch.png" width="150" height="300" /><img src="./figs/kgdetail.png" width="150" height="300" />
 
 - Encyclopedia of pioneers in the fight against the COVID-19
 
-<img src="./figs/ppllist.png" style="zoom:50%;" /><img src="./figs/ppldetail.png" style="zoom:50%;" />
+<img src="./figs/ppllist.png" width="150" height="300" /><img src="./figs/ppldetail.png" width="150" height="300" />
 
 ## Usage
 

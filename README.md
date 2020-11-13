@@ -1,40 +1,42 @@
-# JAVA大作业
+# COVID19-News App for Android
+
+This project is an Android application about Covid19-News for the Tsinghua 20-Summer course "Java Program Design and Training".
+
+Ziqi Wang is reponsible for the frontend and Aowei Lu is responsible for the backend.
 
 
 
-## Outline
+## Functions
 
-### 后端：
+Like usual NewsApp, this App has several common functions:
 
-1. 接口
-   1. 新闻搜索接口
-   2. 统计数据接口
-   3. 知识图谱搜索接口
-   4. 学者接口
-   5. 推荐接口
-2. 其他：
-   1. 抓取数据
-   2. 存储
+- Search News(Include editting searching history)
 
-### 前端
+- View news by categories(Include editting viewing history)
 
-1. 布局：
-   1. 整体布局框架
-   2. 新闻列表布局（含搜索框，时间关键词，标题，预览内容，看过的灰色）
-   3. 具体内容布局（含推荐内容，超链接）
-   4. 下载页
-   5. 上拉/下拉
-   6. 历史记录布局（含删除记录）
-   7. 分享
-   8. 疫情折线图/格状图
-   9. 图谱（含关键词）
-   10. 学者列表布局
+- Share news
 
-### 连接
+<img src="./figs/newslist.png" style="zoom:50%;" /><img src="./figs/newsdetail.png" style="zoom:50%;" />
 
-1. 前后端通信协议
+There are also some special features for COVID-19:
 
-### 其他
+- Statistical histogram of COVID-19(i.e. number of infecte, death, and cured people in different areas)
 
-1. 登陆/注册/注销（含验证码，与历史记录等连接）
+<img src="./figs/Stats.png" style="zoom:50%;" />
+
+- Encyclopedia and knowledge graphs of COVID-19 related knowledge such as "Virus"
+
+<img src="./figs/kgsearch.png" style="zoom:50%;" /><img src="./figs/kgdetail.png" style="zoom:50%;" />
+
+- Encyclopedia of pioneers in the fight against the COVID-19
+
+<img src="./figs/ppllist.png" style="zoom:50%;" /><img src="./figs/ppldetail.png" style="zoom:50%;" />
+
+## Usage
+
+Import this project into **AndroidStudio**, and you can run this project on the simulator or your own Android phone.
+
+You need to connect to the Internet in order to get COVID-19 news.
+
+
 
